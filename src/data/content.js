@@ -30,12 +30,10 @@ export const hero = {
   marks: ['Atendimento por indicação', 'Quando errar não é uma opção'],
   photo: 'Foto: lataria escura sob luz rasante. Sem placa, sem logo de seguradora, sem pessoa.',
 
-  /* Filme de fundo do hero. Deixe null enquanto o arquivo nao existir:
+  /* Filme de fundo do hero, em loop de 6,4 s. Volte para null para desligar:
      a superficie em CSS segura o lugar sozinha e nada quebra.
-     Para ligar, coloque os arquivos em public/ e troque por:
-     video: { webm: '/inventario.webm', mp4: '/inventario.mp4' }
      Briefing e prompts em docs/prompts-video-ia.html */
-  video: null,
+  video: { webm: '/inventario.webm', mp4: '/inventario.mp4' },
 }
 
 export const entryway = {

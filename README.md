@@ -59,8 +59,13 @@ o site usa **Newsreader** para títulos e **Jost** para o resto.
 
 ## As imagens
 
-Nenhuma foto real entrou ainda. Cada mídia é uma superfície em CSS que ocupa o
-lugar da foto e carrega o briefing da tomada que deve substituí-la.
+O hero roda o filme `public/inventario.*` em loop de 6,4 s, mudo, com fade no
+primeiro e no último quadro para a emenda do loop ficar invisível. Ele entra por
+cima da superfície em CSS, que continua embaixo como base e como poster. Para
+desligar, basta voltar `hero.video` para `null` em `src/data/content.js`.
+
+As demais mídias ainda não têm foto real: cada uma é uma superfície em CSS que
+ocupa o lugar da foto e carrega o briefing da tomada que deve substituí-la.
 
 **O botão "Briefing de fotografia", no canto da tela, revela todos os briefings.**
 Remover esse botão (`src/App.jsx`) é o último passo antes de publicar.
@@ -79,7 +84,7 @@ python scripts/build-onefile.py   # gera dist/onefile.html
 - [ ] Revisar os cinco casos em `src/data/content.js` com os fatos reais. Os textos atuais são estruturais e genéricos.
 - [ ] Autorização por escrito dos clientes citados nos casos.
 - [ ] Número de registro SUSEP em `brand.susep`.
-- [ ] Sessão de fotos, ou frames dos Reels como solução provisória.
+- [ ] Sessão de fotos para os casos e bastidores, ou frames dos Reels como solução provisória.
 - [ ] Decidir se o CTA vai direto ao WhatsApp ou passa por formulário curto.
 - [ ] Remover o botão de briefing.
 
