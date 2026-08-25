@@ -1,0 +1,465 @@
+<title>Inventário — prompts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;1,6..72,200&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#003734; --ink-2:#2C4E4A; --ink-3:#6F8A87; --ink-4:#9DB0AD;
+  --copper:#D6A075; --copper-deep:#B47F53;
+  --paper:#FBF9F5; --paper-2:#F3EDE5; --paper-3:#E9E1D6;
+  --line:rgba(0,55,52,.13);
+  --display:"Newsreader",Georgia,serif;
+  --sans:"Jost","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --gutter:clamp(22px,5vw,80px);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.grain{
+  position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:var(--gutter)}
+h1,h2,h3,h4,p{margin:0}
+.display{font-family:var(--display);font-weight:200;letter-spacing:-.018em;line-height:1.08}
+.display em{font-style:italic;font-weight:200}
+.eyebrow{font-size:11px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+.lede{font-size:clamp(16px,1.5vw,19px);line-height:1.62;color:var(--ink-2);max-width:60ch}
+.small{font-size:13.5px;line-height:1.62;color:var(--ink-3);max-width:64ch}
+
+.cover{padding:clamp(66px,9vw,120px) 0 clamp(42px,5.5vw,72px);border-bottom:1px solid var(--line)}
+.cover h1{font-size:clamp(40px,7vw,88px);margin:20px 0 0}
+.cover .sub{font-family:var(--display);font-style:italic;font-weight:200;font-size:clamp(20px,2.4vw,30px);color:var(--ink-2);margin-top:14px;line-height:1.26}
+
+section{padding-block:clamp(46px,6.5vw,84px);border-bottom:1px solid var(--line)}
+section.warm{background:var(--paper-2)}
+.head{display:flex;gap:18px;align-items:baseline;margin-bottom:clamp(24px,3.2vw,40px)}
+.head .no{font-size:12px;letter-spacing:.2em;color:var(--copper-deep);flex:none;padding-top:.4em}
+.head h2{font-size:clamp(25px,3.2vw,42px)}
+
+/* blocos de prompt */
+.pbox{margin-top:22px}
+.plabel{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--copper-deep);
+  margin-bottom:9px;
+}
+.plabel i{font-style:normal;color:var(--ink-4);letter-spacing:.1em}
+.prompt{
+  background:var(--ink);color:#D9E6E4;padding:20px 22px;overflow-x:auto;
+  font-family:var(--mono);font-size:12.5px;line-height:1.72;white-space:pre-wrap;
+  word-break:break-word;margin:0;
+}
+.prompt.neg{background:#2A1A12;color:#E9CDB6}
+.prompt.sh{white-space:pre;word-break:normal}
+
+/* rotas */
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:26px}
+.route{padding:clamp(24px,3vw,38px);background:var(--paper-3)}
+.route.pick{background:var(--ink);color:var(--paper)}
+.route h3{font-family:var(--display);font-weight:300;font-size:clamp(20px,2.2vw,27px);margin-bottom:10px}
+.route .tag{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--copper-deep);display:block;margin-bottom:12px}
+.route.pick .tag{color:var(--copper)}
+.route p{font-size:14.5px;color:var(--ink-2);margin-bottom:.85em}
+.route.pick p{color:rgba(251,249,245,.76)}
+
+/* clipes */
+.clip{padding-top:clamp(26px,3.4vw,44px);border-top:1px solid var(--line);margin-top:clamp(26px,3.4vw,44px)}
+.clip:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.clip-top{display:grid;grid-template-columns:150px 1fr;gap:clamp(18px,2.6vw,36px);align-items:start}
+.frame{position:relative;aspect-ratio:3/4;overflow:hidden;background:#0B1211}
+.frame::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 100% at 50% 45%,transparent 30%,rgba(0,0,0,.5) 100%)}
+.f1{background:linear-gradient(102deg,transparent 30%,rgba(255,248,232,.42) 44%,rgba(255,248,232,.07) 51%,transparent 62%),radial-gradient(28% 15% at 58% 47%,rgba(255,252,244,.6),transparent 74%),linear-gradient(158deg,#18211F 0%,#060A09 100%)}
+.f2{background:repeating-linear-gradient(46deg,rgba(255,255,255,.055) 0 2px,transparent 2px 7px),linear-gradient(115deg,transparent 26%,rgba(255,250,238,.3) 41%,rgba(255,250,238,.05) 50%,transparent 64%),linear-gradient(150deg,#212B29 0%,#080C0B 100%)}
+.f3{background:radial-gradient(closest-side circle at 50% 52%,transparent 31%,rgba(230,238,236,.17) 32%,rgba(230,238,236,.03) 43%,transparent 44%),radial-gradient(24% 24% at 43% 46%,rgba(214,160,117,.44),transparent 72%),linear-gradient(160deg,#1A2321 0%,#080D0C 100%)}
+.f4{background:repeating-linear-gradient(174deg,rgba(255,252,245,.13) 0 1px,transparent 1px 9px),linear-gradient(100deg,transparent 22%,rgba(255,252,245,.2) 38%,rgba(255,252,245,.04) 47%,transparent 60%),linear-gradient(168deg,#1C2422 0%,#050908 100%)}
+.clip h3{font-family:var(--display);font-weight:300;font-size:clamp(21px,2.3vw,29px);line-height:1.2;margin-bottom:8px}
+.clip .kicker{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper-deep);margin-bottom:9px}
+.clip .note{font-size:14.5px;color:var(--ink-2);max-width:60ch}
+.risk{margin-top:14px;padding-left:14px;border-left:1px solid var(--copper);font-size:13.5px;color:var(--ink-3);max-width:60ch}
+
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2px;margin-top:24px}
+.sw{padding:clamp(20px,2.4vw,30px) 16px 14px;color:#FBF9F5}
+.sw b{display:block;font-weight:400;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase}
+.sw span{display:block;font-size:11px;margin-top:5px;opacity:.72;font-variant-numeric:tabular-nums}
+
+.tbl-wrap{overflow-x:auto;margin-top:24px}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+th,td{text-align:left;padding:12px 16px 12px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);font-weight:400}
+td:first-child{color:var(--ink);white-space:nowrap;padding-right:28px}
+td{color:var(--ink-2)}
+
+ul.clean{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:11px}
+ul.clean li{font-size:15px;color:var(--ink-2);padding-left:20px;position:relative;max-width:64ch}
+ul.clean li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1px;background:var(--copper)}
+ul.clean b{font-weight:400;color:var(--ink)}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px)}
+footer{padding-block:clamp(40px,5.5vw,70px);font-size:13px;color:var(--ink-3)}
+
+@media (max-width:820px){
+  .routes,.two{grid-template-columns:1fr}
+  .clip-top{grid-template-columns:1fr}
+  .frame{aspect-ratio:4/3;max-width:300px}
+}
+</style>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="cover">
+  <div class="wrap">
+    <p class="eyebrow">Referency · Filme de hero · Prompts para gerar na IA</p>
+    <h1 class="display">Inventário</h1>
+    <p class="sub">O carro nunca anda. Só a luz se move.</p>
+    <p class="lede" style="margin-top:clamp(28px,3.4vw,44px)">
+      Prompts prontos para copiar. O painel do hero é quase preto com viés verde,
+      então <em>o filme precisa ser escuro nessa mesma faixa.</em> Um clipe claro ou
+      colorido demais desequilibra a tela inteira, porque a metade esquerda é papel
+      quase branco.
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="no">01</span>
+      <h2 class="display">Escolha a rota antes de gerar</h2>
+    </div>
+
+    <div class="routes">
+      <div class="route pick">
+        <span class="tag">Comece por aqui</span>
+        <h3>Um plano só, em loop</h3>
+        <p>
+          Um clipe de 5 a 8 segundos, repetindo. É o que a maioria dos geradores
+          entrega bem, não precisa de montagem, e num hero ninguém percebe que é
+          um plano só.
+        </p>
+        <p>
+          Se for fazer um único clipe, faça o <b>Clipe 04</b>, o contrato refletido
+          na lataria. É o que ninguém mais vai ter.
+        </p>
+      </div>
+      <div class="route">
+        <span class="tag">Se sobrar fôlego</span>
+        <h3>Quatro planos, 14 segundos</h3>
+        <p>
+          Gere os quatro clipes com 5 s cada, use os 3,5 s melhores de cada um e
+          monte na ordem. Dissolves curtas entre eles.
+        </p>
+        <p>
+          Rende mais, mas multiplica por quatro as tentativas até acertar, e exige
+          um passe de cor para os quatro casarem entre si.
+        </p>
+      </div>
+    </div>
+
+    <ul class="clean">
+      <li><b>Prefira imagem primeiro, vídeo depois.</b> Gere um still no enquadramento e na cor certos, aprove, e só então anime com movimento mínimo. Dá muito mais controle do que ir direto de texto para vídeo, e a cor da marca não escapa.</li>
+      <li><b>Gere em 9:16 e corte a altura.</b> A coluna do hero fica em torno de 3:4 tanto no desktop quanto no celular. De 9:16 para 3:4 você corta topo e base, o que é seguro. De 16:9 você teria que sacrificar as laterais.</li>
+      <li><b>Peça movimento lento e diga isso várias vezes.</b> Gerador de vídeo tende a acelerar. "Extremely slow", "barely moving", "almost static" no mesmo prompt não é redundância, é insistência.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="warm">
+  <div class="wrap">
+    <div class="head">
+      <span class="no">02</span>
+      <h2 class="display">Prompt negativo</h2>
+    </div>
+    <p class="lede">
+      Cole em todas as gerações, sempre. É o que impede o modelo de escorregar para
+      o vocabulário de propaganda de seguradora, que é justamente o que o site
+      inteiro foi construído para evitar.
+    </p>
+
+    <div class="pbox">
+      <div class="plabel">Negative prompt <i>universal</i></div>
+      <p class="prompt neg">driving, moving car, car in motion, road, highway, street, sunset, sky, daylight, speed blur, spinning wheels, people, person, driver, hands, fingers, family, child, dealership, showroom, brand logo, emblem, legible badge, licence plate, any text, letters, numbers, watermark, subtitles, blue light, cyan, teal and orange grade, oversaturated, HDR, lens flare, anamorphic streak, smoke, fog, rain, fire, sparks, drone shot, aerial, city timelapse, speedometer, dashboard, interior gauges, crushed blacks, flat grey, fisheye, wide angle distortion, handheld shake, zoom, whip pan, fast cut</p>
+    </div>
+
+    <p class="small" style="margin-top:20px">
+      Se a sua ferramenta não tem campo de prompt negativo, cole isso no fim do
+      prompt principal precedido de <b>"Avoid:"</b>. Funciona quase igual.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="no">03</span>
+      <h2 class="display">Os quatro clipes</h2>
+    </div>
+    <p class="lede" style="margin-bottom:clamp(30px,4vw,50px)">
+      Cada clipe traz dois prompts: um para gerar a imagem base e outro, curto, para
+      animá-la. Se for direto de texto para vídeo, cole os dois juntos.
+    </p>
+
+    <article class="clip">
+      <div class="clip-top">
+        <div class="frame f1"></div>
+        <div>
+          <p class="kicker">Clipe 01 · 3,5 s</p>
+          <h3>O farol apagado</h3>
+          <p class="note">
+            Uma barra de luz atravessa a lente e revela o projetor por dentro.
+            Começa quase no escuro.
+          </p>
+          <p class="risk">
+            Risco: o modelo quer acender o farol. Repita "unlit", "switched off",
+            "no light coming from the headlight" se ele insistir.
+          </p>
+        </div>
+      </div>
+
+      <div class="pbox">
+        <div class="plabel">Imagem base <i>Flux · Midjourney · Imagen · Nano Banana</i></div>
+        <p class="prompt">Extreme macro close-up of the unlit headlight of a dark, stationary luxury car, parked inside a blacked-out garage. The car is switched off and the headlight emits no light. A single hard bar of warm 3400K light rakes across the lens from the left, revealing the internal projector housing, the reflector facets and the seam of the polycarbonate. Shadows are deep petrol green, near #003734, never pure black. Highlights are warm copper, near #D6A075. Shallow depth of field, macro 100mm at f/3.5. Polished dark concrete floor barely visible. Low key, underexposed, fine film grain, cinematic still, vertical 9:16 framing with the headlight centred in the middle square of the frame.</p>
+      </div>
+
+      <div class="pbox">
+        <div class="plabel">Animação <i>Kling · Runway · Luma · Hailuo</i></div>
+        <p class="prompt">The car stays perfectly still. Only the bar of light travels slowly across the headlight lens from left to right, revealing the reflector facets as it passes. The camera glides laterally on a slider, extremely slow, barely moving. The shot begins in near darkness and the light enters the frame. No other movement in the scene.</p>
+      </div>
+    </article>
+
+    <article class="clip">
+      <div class="clip-top">
+        <div class="frame f2"></div>
+        <div>
+          <p class="kicker">Clipe 02 · 3,5 s</p>
+          <h3>A borda do PPF</h3>
+          <p class="note">
+            Luz quase rente à lataria revelando onde a película de proteção termina.
+            Um detalhe que só existe para quem sabe procurar.
+          </p>
+          <p class="risk">
+            Risco: o modelo faz um risco na pintura em vez de uma borda de película.
+            Se acontecer, troque "film edge" por "a barely visible transparent
+            layer boundary on the clear coat".
+          </p>
+        </div>
+      </div>
+
+      <div class="pbox">
+        <div class="plabel">Imagem base</div>
+        <p class="prompt">Extreme macro of a dark, glossy, perfectly clean car body panel, with the faint edge of a transparent paint protection film running diagonally across the frame. A single hard light source rakes almost parallel to the surface, grazing it, making the film edge and the texture of the clear coat visible. The car is stationary inside a blacked-out garage. Shadows are deep petrol green, near #003734. The rolling highlight on the panel is warm copper, near #D6A075. Macro 100mm at f/2.8, very shallow depth of field. Low key, underexposed, fine film grain, cinematic still, vertical 9:16 framing, the film edge crossing the central square of the frame.</p>
+      </div>
+
+      <div class="pbox">
+        <div class="plabel">Animação</div>
+        <p class="prompt">The car is completely static. The camera glides very slowly along the film edge, the focus riding the line as it moves. The warm highlight rolls gently across the paint. Nothing else moves. Almost imperceptible motion, like a slider at three centimetres per second.</p>
+      </div>
+    </article>
+
+    <article class="clip">
+      <div class="clip-top">
+        <div class="frame f3"></div>
+        <div>
+          <p class="kicker">Clipe 03 · 3,5 s</p>
+          <h3>Aro e pinça</h3>
+          <p class="note">
+            Uma órbita curta em volta da roda parada. A pinça de freio pega um resto
+            de luz quente.
+          </p>
+          <p class="risk">
+            Risco: é o clipe onde a IA mais erra. Ela quer girar a roda e escrever
+            no pneu. Reforce "the wheel does not rotate" e "blank tyre sidewall,
+            no lettering". Se não sair em três tentativas, pule este e fique com três clipes.
+          </p>
+        </div>
+      </div>
+
+      <div class="pbox">
+        <div class="plabel">Imagem base</div>
+        <p class="prompt">Close-up of the wheel of a stationary dark luxury car inside a blacked-out garage. A dark machined alloy rim and a brake caliper catching a warm copper rim light. The wheel is not rotating, the car is parked. The tyre sidewall is completely blank with no lettering or branding. Hard key light from high above, a low warm bounce touching the caliper. Shadows are deep petrol green, near #003734. 50mm at f/2.8, shallow depth of field. Low key, underexposed, fine film grain, cinematic still, vertical 9:16 framing with the wheel centred.</p>
+      </div>
+
+      <div class="pbox">
+        <div class="plabel">Animação</div>
+        <p class="prompt">The wheel does not rotate and the car does not move. The camera orbits slowly around the wheel, about ten degrees total across the whole shot. Reflections travel gradually across the spokes as the angle changes. Extremely slow, controlled motion. Nothing else in the frame moves.</p>
+      </div>
+    </article>
+
+    <article class="clip">
+      <div class="clip-top">
+        <div class="frame f4"></div>
+        <div>
+          <p class="kicker">Clipe 04 · 3,5 s · assinatura</p>
+          <h3>O contrato refletido na lataria</h3>
+          <p class="note">
+            A pintura escura preenche o quadro. Nela passa o reflexo distorcido de
+            uma página impressa. Dá para perceber que é um documento, nunca para ler.
+            A luz sai de campo e escurece.
+          </p>
+          <p class="risk">
+            Aqui o defeito da IA vira qualidade: ela não sabe escrever texto legível,
+            e nós <em>queremos</em> texto ilegível. É o clipe mais fácil de acertar e o
+            mais forte dos quatro.
+          </p>
+        </div>
+      </div>
+
+      <div class="pbox">
+        <div class="plabel">Imagem base</div>
+        <p class="prompt">Extreme close-up of a dark, glossy, perfectly polished car body panel filling the entire frame. Across it falls the soft, distorted reflection of a sheet of printed paper held out of frame and backlit. The reflection reads clearly as a document, but the text is completely unreadable, dissolved and stretched by the curvature of the paint. No hands are visible. The car is stationary inside a blacked-out garage. Shadows are deep petrol green, near #003734. The paper reflection is a warm off-white, near #E9E1D6. 50mm at f/4. Low key, underexposed, fine film grain, cinematic still, vertical 9:16 framing.</p>
+      </div>
+
+      <div class="pbox">
+        <div class="plabel">Animação</div>
+        <p class="prompt">The camera is locked off and completely still. Only the reflection of the paper drifts slowly across the paint, stretching and bending with the curvature of the panel. Towards the end the light gradually leaves the frame and the panel falls into darkness. No hands enter the shot. Very slow, quiet, minimal motion.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="warm">
+  <div class="wrap">
+    <div class="head">
+      <span class="no">04</span>
+      <h2 class="display">Cor e exposição</h2>
+    </div>
+    <p class="lede">
+      A marca entra pela correção de cor, nunca por cima da imagem. Se o clipe sair
+      mais claro do que isto, escureça antes de subir: o painel do hero fica ao lado
+      de papel quase branco e qualquer excesso de luz desequilibra a tela.
+    </p>
+
+    <div class="swatches">
+      <div class="sw" style="background:#003734"><b>Sombras</b><span>#003734</span></div>
+      <div class="sw" style="background:#0B1211"><b>Preto de base</b><span>#0B1211 · nunca 0,0,0</span></div>
+      <div class="sw" style="background:#D6A075;color:#2b1a0c"><b>Altas luzes</b><span>#D6A075 · 3400 K</span></div>
+      <div class="sw" style="background:#E9E1D6;color:#003734"><b>Papel do clipe 04</b><span>#E9E1D6</span></div>
+    </div>
+
+    <div class="pbox" style="margin-top:32px">
+      <div class="plabel">Ajuste rápido, se não for abrir num editor <i>ffmpeg</i></div>
+      <p class="prompt sh">-vf "eq=brightness=-0.05:contrast=1.08:saturation=0.82,
+     colorbalance=rs=-0.03:gs=0.04:bs=0.01:rh=0.04:gh=0.01:bh=-0.04"</p>
+    </div>
+    <p class="small" style="margin-top:16px">
+      Escurece um pouco, tira saturação, joga as sombras para o verde e as altas
+      luzes para o cobre. Não substitui um passe de cor de verdade, mas resolve.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="no">05</span>
+      <h2 class="display">Configuração por ferramenta</h2>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Ferramenta</th><th>Como usar aqui</th></tr></thead>
+        <tbody>
+          <tr><td>Veo</td><td>Texto para vídeo direto funciona bem. Gere em 9:16. <b>Remova a faixa de áudio na exportação</b>, ele gera som e o vídeo do site é mudo.</td></tr>
+          <tr><td>Sora</td><td>Aceita descrição longa. Cole o prompt de imagem e o de animação juntos, num parágrafo só.</td></tr>
+          <tr><td>Kling</td><td>O melhor para material e superfície. Use imagem para vídeo, com o controle de câmera em movimento lento e amplitude mínima.</td></tr>
+          <tr><td>Runway</td><td>Imagem para vídeo com os controles de câmera manuais. Ponha tudo perto de zero e mexa só num eixo.</td></tr>
+          <tr><td>Luma</td><td>Tem loop nativo. Se for pela rota de um clipe só, é o caminho mais curto para um loop limpo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="clean">
+      <li><b>Gere 5 a 8 segundos por clipe</b> mesmo precisando de 3,5. A sobra é para escolher o melhor trecho e descartar o começo, que costuma ser onde o modelo hesita.</li>
+      <li><b>Guarde a seed do still que der certo.</b> É como os quatro clipes ficam parecendo o mesmo carro, na mesma garagem, no mesmo dia.</li>
+      <li><b>Três tentativas por clipe.</b> Se não saiu, o problema é o enquadramento pedido, não a quantidade de tentativas. Troque o ângulo antes de insistir.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="warm">
+  <div class="wrap">
+    <div class="head">
+      <span class="no">06</span>
+      <h2 class="display">Montagem e exportação</h2>
+    </div>
+
+    <p class="lede">
+      O detalhe que faz o loop não ter emenda: <em>fade para preto no primeiro e no
+      último quadro.</em> Sem isso, cada volta tem um salto visível e o efeito se perde
+      na terceira repetição.
+    </p>
+
+    <div class="pbox">
+      <div class="plabel">Um clipe em loop <i>rota rápida, 6 s</i></div>
+      <p class="prompt sh">ffmpeg -i clipe.mp4 -an -vf "crop=1080:1440:0:240,fps=24,fade=t=in:st=0:d=0.4,fade=t=out:st=5.6:d=0.4" -c:v libvpx-vp9 -crf 34 -b:v 0 -row-mt 1 public/inventario.webm
+
+ffmpeg -i clipe.mp4 -an -vf "crop=1080:1440:0:240,fps=24,fade=t=in:st=0:d=0.4,fade=t=out:st=5.6:d=0.4" -c:v libx264 -profile:v high -crf 24 -pix_fmt yuv420p -movflags +faststart public/inventario.mp4</p>
+    </div>
+
+    <div class="pbox">
+      <div class="plabel">Quatro clipes montados <i>rota completa, 14 s</i></div>
+      <p class="prompt sh">Monte no editor: 4 cortes de 3,5 s, dissolves de meio segundo
+entre 01→02 e 03→04, corte seco entre 02→03 para dar respiro.
+Exporte um master, depois rode o mesmo comando acima
+trocando st=5.6 por st=13.6.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Item</th><th>Alvo</th></tr></thead>
+        <tbody>
+          <tr><td>Resolução final</td><td>1080 × 1440 (3:4)</td></tr>
+          <tr><td>Taxa de quadros</td><td>24 fps</td></tr>
+          <tr><td>Peso</td><td>abaixo de 2 MB no WebM, abaixo de 3,5 MB no MP4</td></tr>
+          <tr><td>Áudio</td><td>removido pelo <code>-an</code>, não silenciado</td></tr>
+          <tr><td>Onde salvar</td><td><code>public/inventario.webm</code> e <code>public/inventario.mp4</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="small" style="margin-top:22px">
+      O <code>crop=1080:1440:0:240</code> assume um clipe de 1080 × 1920 e corta 240
+      pixels do topo e da base. Se a sua saída tiver outra resolução, ajuste os
+      números mantendo a proporção 3:4.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="no">07</span>
+      <h2 class="display">Ligar no site</h2>
+    </div>
+
+    <p class="lede">
+      O site já está preparado. Coloque os dois arquivos em <code>public/</code> e
+      troque uma linha em <code>src/data/content.js</code>. Mais nada.
+    </p>
+
+    <div class="pbox">
+      <div class="plabel">src/data/content.js <i>dentro de export const hero</i></div>
+      <p class="prompt sh">video: { webm: '/inventario.webm', mp4: '/inventario.mp4' },</p>
+    </div>
+
+    <ul class="clean">
+      <li><b>Se você não fizer nada, nada quebra.</b> Enquanto o valor for <code>null</code>, a superfície em CSS que já está no ar continua sozinha, exatamente como hoje.</li>
+      <li><b>O filme nunca segura o primeiro render.</b> Ele entra por cima depois de carregar, com uma dissolvência de um segundo. A superfície em CSS é o poster.</li>
+      <li><b>O parallax cai de 7% para 3%</b> automaticamente quando há vídeo. O filme já tem movimento próprio, e somar os dois embrulha a imagem.</li>
+      <li><b>Não carrega em conexão 2G, com economia de dados ligada, nem para quem pediu menos movimento no sistema.</b> Nesses casos a pessoa vê a versão em CSS e não perde nada.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Referency Corretora de Seguros · Sorocaba, SP<br>
+    As superfícies deste documento são simulações em CSS, não frames gerados.
+    Direção completa do filme em <code>docs/briefing-video.html</code>.
+  </div>
+</footer>

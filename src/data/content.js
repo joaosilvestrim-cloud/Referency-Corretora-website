@@ -29,6 +29,13 @@ export const hero = {
   ctaAlt: 'Ver casos reais',
   marks: ['Atendimento por indicação', 'Quando errar não é uma opção'],
   photo: 'Foto: lataria escura sob luz rasante. Sem placa, sem logo de seguradora, sem pessoa.',
+
+  /* Filme de fundo do hero. Deixe null enquanto o arquivo nao existir:
+     a superficie em CSS segura o lugar sozinha e nada quebra.
+     Para ligar, coloque os arquivos em public/ e troque por:
+     video: { webm: '/inventario.webm', mp4: '/inventario.mp4' }
+     Briefing e prompts em docs/prompts-video-ia.html */
+  video: null,
 }
 
 export const entryway = {
