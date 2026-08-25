@@ -39,7 +39,10 @@ export function Cases({ onOpen }) {
                   </span>
                 )}
               </div>
-              <p className="case-kicker">{c.kicker}</p>
+              <p className="case-kicker">
+                <span className="case-no">{String(i + 1).padStart(2, '0')}</span>
+                {c.kicker}
+              </p>
               <h3 className="case-title">
                 {c.title} <span>— {c.subtitle.toLowerCase()}</span>
               </h3>

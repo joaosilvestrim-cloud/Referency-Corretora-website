@@ -37,7 +37,10 @@ export function CaseOverlay({ index, onClose, onNavigate }) {
       transition={{ duration: 0.72, ease: EASE }}
     >
       <div className="ov-head">
-        <span className="eyebrow">{c.kicker}</span>
+        <span className="eyebrow">
+          <b className="ov-count">{String(index + 1).padStart(2, '0')} / {String(cases.items.length).padStart(2, '0')}</b>
+          {c.kicker}
+        </span>
         <button className="ov-close" onClick={onClose}>
           Fechar
           <span className="x" aria-hidden="true"><i /><i /></span>

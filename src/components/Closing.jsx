@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from 'motion/react'
-import { closing, entryway, brand } from '../data/content'
+import { closing, entryway } from '../data/content'
 import { Reveal, SplitText } from './Reveal'
 
 const EASE = [0.22, 0.61, 0.36, 1]
 
 /* O rótulo do botão vem da escolha feita lá em cima, na porta de entrada. */
-export function Closing({ chosen }) {
+export function Closing({ chosen, onDiagnostic }) {
   const label = chosen === null ? closing.cta : entryway.options[chosen].cta
 
   return (
@@ -25,7 +25,7 @@ export function Closing({ chosen }) {
         <Reveal as="p" className="lede" delay={0.2}>{closing.lede}</Reveal>
 
         <Reveal className="close-actions" delay={0.28}>
-          <a href={brand.whatsapp} target="_blank" rel="noopener" className="btn btn--solid">
+          <button className="btn btn--solid" onClick={onDiagnostic}>
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={label}
@@ -38,7 +38,7 @@ export function Closing({ chosen }) {
               </motion.span>
             </AnimatePresence>
             <span className="arw">→</span>
-          </a>
+          </button>
           <a href="#casos" className="link-u">{closing.ctaAlt}</a>
         </Reveal>
 

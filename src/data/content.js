@@ -18,16 +18,24 @@ export const nav = [
   { href: '#metodo', label: 'Método' },
   { href: '#sinistro', label: 'Sinistro' },
   { href: '#atuacao', label: 'Atuação' },
+  { href: '#consorcio', label: 'Consórcio' },
 ]
 
 export const hero = {
   eyebrow: 'Ateliê de seguro automotivo · Sorocaba, SP',
-  title: 'O carro você escolheu.',
-  titleEm: 'Agora escolha como protegê-lo.',
-  lede: 'Seguro estruturado para quem não pode descobrir uma cobertura ruim depois do acidente.',
+
+  /* Alternativas para a frase de abertura, se quiser trocar:
+     · 'O carro você escolheu com cuidado.' / 'A apólice, provavelmente não.'
+     · 'Todo seguro parece bom' / 'até o dia do acidente.'
+     · 'Você só descobre a sua apólice' / 'no dia em que precisa dela.'
+     · 'O carro você escolheu.' / 'Agora escolha como protegê-lo.'  (versão anterior) */
+  title: 'Ninguém lê a apólice antes do acidente.',
+  titleEm: 'Nós lemos.',
+
+  lede: 'Estruturamos a apólice lendo o contrato inteiro, não o resumo da proposta. É ali que duas propostas parecidas deixam de ser parecidas.',
   cta: 'Começar um diagnóstico',
   ctaAlt: 'Ver casos reais',
-  marks: ['Atendimento por indicação', 'Quando errar não é uma opção'],
+  marks: ['Atendimento por indicação', 'Seguro e consórcio', 'Quando errar não é uma opção'],
   photo: 'Foto: lataria escura sob luz rasante. Sem placa, sem logo de seguradora, sem pessoa.',
 
   /* Filme de fundo do hero, em loop de 6,4 s. Volte para null para desligar:
@@ -241,7 +249,7 @@ export const practice = {
     },
     {
       name: 'Premium & especiais',
-      line: 'Estruturas específicas para Porsche, BMW, Mercedes-Benz, Land Rover e carros modificados, blindados ou com investimento relevante em proteção e acabamento.',
+      line: 'Estruturas específicas para Porsche, Ferrari, Land Rover, BMW, Mercedes-Benz e veículos blindados ou com investimento relevante em proteção e acabamento.',
       note: 'Rede de reparo, peça genuína, acessórios declarados, assistência compatível com o veículo.',
     },
     {
@@ -266,7 +274,7 @@ export const practice = {
 }
 
 export const backstage = {
-  act: '07',
+  act: '08',
   eyebrow: 'Bastidores',
   title: 'O que passa pela mesa',
   titleEm: 'durante a semana.',
@@ -293,6 +301,117 @@ export const backstage = {
       photo: 'Foto: roda e pinça de freio, luz de garagem.',
     },
   ],
+}
+
+/* ------------------------------------------------------------
+   Diagnóstico. Reaproveita as mesmas perguntas da seção 02, para
+   quem rolou a página reconhecer o que já leu. Nada é guardado em
+   servidor: a resposta vira uma mensagem pronta no WhatsApp.
+   ------------------------------------------------------------ */
+export const diagnostic = {
+  open: 'Diagnóstico',
+  title: 'Quatro perguntas sobre a sua apólice',
+  intro: 'Nenhuma delas aparece num comparador de preço. Todas aparecem num sinistro. Leva menos de um minuto.',
+  privacy: 'Nada é enviado para servidor nenhum. No fim, a sua resposta vira uma mensagem pronta que você decide se manda.',
+
+  answers: [
+    { id: 'sei', label: 'Sei responder', weight: 0 },
+    { id: 'naosei', label: 'Não sei', weight: 1 },
+    { id: 'nao', label: 'Acho que não tenho', weight: 1 },
+  ],
+
+  questions: [
+    {
+      id: 'terceiros',
+      short: 'Limite de danos a terceiros',
+      q: 'Você sabe até quanto a sua apólice paga se você causar dano ao carro de outra pessoa?',
+      hint: 'Muita apólice fica em R$ 100 mil só porque foi o que veio na proposta.',
+    },
+    {
+      id: 'peca',
+      short: 'Peça genuína ou similar',
+      q: 'Você sabe se o seu contrato garante peça genuína ou aceita similar?',
+      hint: 'Isso está nas condições gerais, não na cotação.',
+    },
+    {
+      id: 'acessorios',
+      short: 'Acessórios declarados',
+      q: 'O PPF, as rodas e os acessórios que você pagou estão declarados na apólice, com valor?',
+      hint: 'O que não está declarado não existe para a seguradora.',
+    },
+    {
+      id: 'perdatotal',
+      short: 'Critério de perda total',
+      q: 'Você sabe qual percentual da tabela a sua apólice paga em caso de perda total?',
+      hint: '95%, 100% e 110% chegam a números bem diferentes para o mesmo carro.',
+    },
+  ],
+
+  ident: {
+    title: 'Para quem devolvemos a leitura',
+    name: 'Seu nome',
+    namePlaceholder: 'Como podemos chamar você',
+    car: 'Carro',
+    carPlaceholder: 'Modelo e ano, se quiser adiantar',
+  },
+
+  result: {
+    eyebrow: 'Resultado',
+    none: 'Você respondeu todas.',
+    noneSub: 'Isso é raro. Ainda assim vale conferir se o que você acha que tem está escrito no contrato, porque é exatamente ali que as surpresas moram.',
+    one: 'Um ponto em aberto.',
+    many: '{n} pontos em aberto.',
+    sub: 'Não é uma falha sua. É a parte da apólice que ninguém mostra na hora de vender, e é por onde começamos a leitura.',
+    listLabel: 'O que vamos verificar primeiro',
+    cta: 'Enviar para a Referency',
+    restart: 'Refazer',
+  },
+
+  /* Rótulos da mensagem que vai para o WhatsApp. O texto é montado no
+     componente, onde a quebra de linha é literal e não precisa de escape. */
+  wa: {
+    intro: 'Olá! Fiz o diagnóstico no site da Referency.',
+    momento: 'Momento:',
+    carro: 'Carro:',
+    pontos: 'Pontos que não sei responder:',
+    tudoCerto: 'Respondi todas as perguntas, mas quero a leitura do contrato.',
+  },
+}
+
+/* ------------------------------------------------------------
+   Consórcio como seção própria, e não só como um card dentro da
+   seção de atuação.
+   ------------------------------------------------------------ */
+export const consorcio = {
+  act: '07',
+  eyebrow: 'Planejamento de aquisição',
+  title: 'Consórcio não se resolve na parcela.',
+  titleEm: 'Se resolve no plano.',
+  lede: 'Quase todo mundo vende consórcio dizendo que é mais barato que financiamento. É exatamente por isso que tanta gente desiste no meio do caminho: entrou por preço, sem nenhuma estratégia de contemplação, e descobre tarde que comprou prazo.',
+  points: [
+    {
+      no: '01',
+      t: 'Começa pela data, não pela parcela',
+      d: 'Qual bem, para quando. O valor da parcela é consequência dessa resposta, nunca o ponto de partida.',
+    },
+    {
+      no: '02',
+      t: 'O crédito é dimensionado para o futuro',
+      d: 'O bem custa o que vai custar na data em que você pretende usar o crédito, e não o que custa hoje.',
+    },
+    {
+      no: '03',
+      t: 'A estratégia de lance vem antes da assinatura',
+      d: 'Quanto de caixa, quando entrar, lance livre ou fixo, e quando o lance embutido ajuda ou atrapalha.',
+    },
+    {
+      no: '04',
+      t: 'O grupo é escolhido pela regra de contemplação',
+      d: 'E não pela taxa de administração isolada, que é o número que costuma decidir a venda e quase nunca decide o resultado.',
+    },
+  ],
+  close: 'Trabalhamos com um objetivo declarado e uma data alvo. Se o plano não sustenta essa data, o certo é dizer isso antes da assinatura.',
+  cta: 'Quero planejar uma aquisição',
 }
 
 export const closing = {

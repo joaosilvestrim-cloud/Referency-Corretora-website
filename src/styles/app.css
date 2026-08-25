@@ -558,3 +558,107 @@ body.briefing .brief-toggle{background:var(--ink);color:var(--paper);border-colo
   *{animation-duration:.01ms !important;transition-duration:.01ms !important}
   .cursor{display:none}
 }
+
+/* ============================================================
+   CONSÓRCIO
+   ============================================================ */
+.cs-head{display:grid;grid-template-columns:1fr .9fr;gap:clamp(24px,5vw,72px);align-items:end;margin-bottom:clamp(40px,5vw,68px)}
+.cs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.cs-item{background:var(--paper-2);padding:clamp(24px,2.6vw,34px) clamp(20px,2.2vw,28px);display:flex;flex-direction:column;gap:10px}
+.cs-no{font-size:11px;letter-spacing:.2em;color:var(--copper-deep)}
+.cs-item h3{font-family:var(--display);font-weight:300;font-size:clamp(18px,1.7vw,23px);line-height:1.24;margin:0}
+.cs-item p{font-size:14px;line-height:1.6;color:var(--ink-2);margin:0}
+.cs-close{
+  margin-top:clamp(38px,4.5vw,62px);display:flex;flex-wrap:wrap;align-items:center;
+  justify-content:space-between;gap:24px 40px;
+}
+.cs-close .display{max-width:34ch}
+
+/* ============================================================
+   DIAGNÓSTICO
+   ============================================================ */
+.dg{position:fixed;inset:0;z-index:965;display:flex;flex-direction:column;background:var(--paper)}
+.dg-head{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:20px var(--gutter);flex:none;
+}
+.dg-track{height:1px;background:var(--line);flex:none;overflow:hidden}
+.dg-track i{display:block;height:100%;background:var(--copper);transform-origin:left;transform:scaleX(0)}
+.dg-body{flex:1;overflow-y:auto;display:flex;align-items:center;-webkit-overflow-scrolling:touch}
+.dg-in{
+  width:100%;max-width:760px;margin:0 auto;
+  padding:clamp(36px,6vw,72px) var(--gutter) clamp(48px,7vw,90px);
+}
+.dg-pane{display:flex;flex-direction:column}
+
+.dg-q{
+  font-family:var(--display);font-weight:200;letter-spacing:-.018em;
+  font-size:clamp(26px,3.4vw,44px);line-height:1.12;margin:16px 0 0;color:var(--ink);
+  text-wrap:balance;
+}
+.dg-hint{font-size:15px;line-height:1.6;color:var(--ink-3);margin:16px 0 0;max-width:52ch}
+.dg-privacy{font-size:12.5px;line-height:1.6;color:var(--ink-4);margin:clamp(26px,3vw,40px) 0 0;max-width:56ch}
+
+.dg-opts{display:grid;gap:1px;background:var(--line);margin-top:clamp(28px,3.4vw,44px)}
+.dg-opt{
+  background:var(--paper);text-align:left;padding:20px 22px;
+  display:flex;align-items:center;gap:16px;font-size:16px;color:var(--ink-2);
+  transition:background .35s var(--ease),color .35s var(--ease);
+}
+.dg-opt:hover{background:var(--paper-2);color:var(--ink)}
+.dg-opt .mark{
+  flex:none;width:9px;height:9px;border:1px solid var(--ink-4);border-radius:50%;
+  transition:background .3s var(--ease),border-color .3s var(--ease),box-shadow .3s var(--ease);
+}
+.dg-opt:hover .mark{border-color:var(--copper)}
+.dg-opt.on{background:var(--paper-2);color:var(--ink)}
+.dg-opt.on .mark{background:var(--copper);border-color:var(--copper);box-shadow:0 0 0 3px rgba(214,160,117,.2)}
+
+.dg-fields{display:grid;gap:1px;background:var(--line);margin-top:clamp(28px,3.4vw,44px)}
+.dg-field{background:var(--paper);padding:16px 22px;display:grid;gap:6px}
+.dg-field span{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4)}
+.dg-field input{
+  font:inherit;font-size:17px;color:var(--ink);background:none;border:0;padding:0;width:100%;
+}
+.dg-field input::placeholder{color:var(--ink-4);opacity:1}
+.dg-field input:focus{outline:none}
+.dg-field:focus-within{background:var(--paper-2)}
+
+.dg-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px 26px;margin-top:clamp(30px,3.6vw,46px)}
+.dg-back{
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-4);
+  align-self:flex-start;margin-top:clamp(22px,2.6vw,32px);
+  border-bottom:1px solid transparent;padding-bottom:3px;transition:color .35s var(--ease),border-color .35s var(--ease);
+}
+.dg-actions .dg-back{margin-top:0}
+.dg-back:hover{color:var(--ink-2);border-bottom-color:var(--line)}
+
+.dg-result{
+  font-family:var(--display);font-weight:200;letter-spacing:-.018em;
+  font-size:clamp(32px,4.6vw,62px);line-height:1.06;margin:16px 0 0;color:var(--ink);
+}
+.dg-sub{font-size:16.5px;line-height:1.66;color:var(--ink-2);margin:22px 0 0;max-width:54ch}
+.dg-list{margin-top:clamp(30px,3.6vw,46px);padding-top:24px;border-top:1px solid var(--line)}
+.dg-list-lbl{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper-deep)}
+.dg-list ul{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:13px}
+.dg-list li{
+  font-family:var(--display);font-weight:300;font-size:clamp(18px,1.9vw,24px);
+  line-height:1.3;color:var(--ink);padding-left:22px;position:relative;
+}
+.dg-list li::before{content:"";position:absolute;left:0;top:.66em;width:10px;height:1px;background:var(--copper)}
+
+/* numeração dos casos */
+.case-no{color:var(--ink-4);margin-right:12px}
+.ov-count{font-weight:400;color:var(--copper-deep);margin-right:14px;font-variant-numeric:tabular-nums}
+
+@media (max-width:1080px){
+  .cs-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:900px){
+  .cs-head{grid-template-columns:1fr;gap:22px}
+  .cs-close{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:640px){
+  .cs-grid{grid-template-columns:1fr}
+  .dg-body{align-items:flex-start}
+}

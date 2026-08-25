@@ -9,6 +9,8 @@ import { Hero } from './components/Hero'
 import { Entryway } from './components/Entryway'
 import { Questions } from './components/Questions'
 import { Cases } from './components/Cases'
+import { Consorcio } from './components/Consorcio'
+import { Diagnostic } from './components/Diagnostic'
 import { CaseOverlay } from './components/CaseOverlay'
 import { Method } from './components/Method'
 import { Concierge } from './components/Concierge'
@@ -31,6 +33,7 @@ export default function App() {
   const [loading, setLoading] = useState(shouldPreload)
   const [chosen, setChosen] = useState(null)
   const [caseIndex, setCaseIndex] = useState(null)
+  const [diagOpen, setDiagOpen] = useState(false)
   const [briefing, setBriefing] = useState(false)
 
   const { scrollYProgress } = useScroll()
@@ -55,6 +58,22 @@ export default function App() {
   const openCase = (i) => { setCaseIndex(i); lockScroll(true) }
   const closeCase = () => { setCaseIndex(null); lockScroll(false) }
 
+  /* O CTA do site abre o diagnóstico em vez de jogar direto no WhatsApp.
+     Assim a conversa começa com o corretor já sabendo o que perguntar. */
+  const openDiag = () => { setCaseIndex(null); setDiagOpen(true); lockScroll(true) }
+  const closeDiag = () => { setDiagOpen(false); lockScroll(false) }
+
+  useEffect(() => {
+    const onClick = (e) => {
+      const a = e.target.closest('a[href="#diagnostico"]')
+      if (!a) return
+      e.preventDefault()
+      openDiag()
+    }
+    document.addEventListener('click', onClick)
+    return () => document.removeEventListener('click', onClick)
+  }, [])
+
   return (
     <>
       <AnimatePresence>
@@ -75,11 +94,23 @@ export default function App() {
         <Method />
         <Concierge />
         <Practice />
+        <Consorcio onDiagnostic={openDiag} />
         <Backstage />
-        <Closing chosen={chosen} />
+        <Closing chosen={chosen} onDiagnostic={openDiag} />
       </main>
 
       <Footer />
+
+      <AnimatePresence>
+        {diagOpen && (
+          <Diagnostic
+            key="diag"
+            intent={chosen}
+            onIntent={setChosen}
+            onClose={closeDiag}
+          />
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {caseIndex !== null && (
