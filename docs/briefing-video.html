@@ -1,0 +1,483 @@
+<title>Inventário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;1,6..72,200&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#003734; --ink-2:#2C4E4A; --ink-3:#6F8A87; --ink-4:#9DB0AD;
+  --copper:#D6A075; --copper-deep:#B47F53;
+  --paper:#FBF9F5; --paper-2:#F3EDE5; --paper-3:#E9E1D6;
+  --line:rgba(0,55,52,.13); --line-soft:rgba(0,55,52,.07);
+  --display:"Newsreader",Georgia,serif;
+  --sans:"Jost","Helvetica Neue",Arial,sans-serif;
+  --gutter:clamp(22px,5vw,80px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.grain{
+  position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:var(--gutter)}
+h1,h2,h3,p{margin:0}
+.display{font-family:var(--display);font-weight:200;letter-spacing:-.018em;line-height:1.08}
+.display em{font-style:italic;font-weight:200}
+.eyebrow{font-size:11px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+.lede{font-size:clamp(16px,1.5vw,19px);line-height:1.62;color:var(--ink-2);max-width:56ch}
+.small{font-size:13.5px;line-height:1.6;color:var(--ink-3)}
+
+/* capa */
+.cover{padding:clamp(70px,10vw,130px) 0 clamp(46px,6vw,80px);border-bottom:1px solid var(--line)}
+.cover h1{font-size:clamp(46px,8vw,104px);margin:22px 0 0}
+.cover .sub{font-family:var(--display);font-style:italic;font-weight:200;font-size:clamp(21px,2.6vw,33px);color:var(--ink-2);margin-top:16px;line-height:1.24}
+.meta{display:flex;flex-wrap:wrap;gap:10px 34px;margin-top:clamp(34px,4vw,54px);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4)}
+.meta b{font-weight:400;color:var(--ink-2)}
+
+section{padding-block:clamp(50px,7vw,92px);border-bottom:1px solid var(--line)}
+section.warm{background:var(--paper-2)}
+.head{display:flex;gap:18px;align-items:baseline;margin-bottom:clamp(26px,3.4vw,44px)}
+.head .no{font-size:12px;letter-spacing:.2em;color:var(--copper-deep);flex:none;padding-top:.4em}
+.head h2{font-size:clamp(26px,3.4vw,44px)}
+
+/* regra de ouro */
+.golden{
+  background:var(--ink);color:var(--paper);padding:clamp(34px,4.5vw,62px) clamp(26px,3.5vw,54px);
+  margin-top:clamp(24px,3vw,40px);
+}
+.golden p{font-family:var(--display);font-weight:200;font-style:italic;font-size:clamp(22px,3vw,38px);line-height:1.24;max-width:22ch}
+.golden .why{font-family:var(--sans);font-style:normal;font-size:15px;line-height:1.66;color:rgba(251,249,245,.7);max-width:56ch;margin-top:26px}
+
+/* storyboard */
+.shots{display:grid;gap:clamp(22px,3vw,40px)}
+.shot{display:grid;grid-template-columns:230px 1fr;gap:clamp(20px,3vw,44px);align-items:start;padding-top:clamp(22px,3vw,38px);border-top:1px solid var(--line)}
+.shot:first-child{border-top:0;padding-top:0}
+.frame{position:relative;aspect-ratio:3/4;overflow:hidden;background:#0B1211}
+.frame::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 100% at 50% 45%,transparent 30%,rgba(0,0,0,.5) 100%)}
+.frame .tc{
+  position:absolute;left:12px;bottom:11px;z-index:3;font-size:10px;letter-spacing:.14em;
+  color:rgba(255,255,255,.68);font-variant-numeric:tabular-nums;
+}
+.safe{position:absolute;left:0;right:0;top:12.5%;bottom:12.5%;z-index:2;border:1px dashed rgba(214,160,117,.5)}
+.safe span{position:absolute;top:6px;left:8px;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(214,160,117,.8)}
+
+.f1{background:
+  linear-gradient(102deg,transparent 30%,rgba(255,248,232,.42) 44%,rgba(255,248,232,.07) 51%,transparent 62%),
+  radial-gradient(28% 15% at 58% 47%,rgba(255,252,244,.6),transparent 74%),
+  linear-gradient(158deg,#18211F 0%,#060A09 100%);}
+.f2{background:
+  repeating-linear-gradient(46deg,rgba(255,255,255,.055) 0 2px,transparent 2px 7px),
+  linear-gradient(115deg,transparent 26%,rgba(255,250,238,.3) 41%,rgba(255,250,238,.05) 50%,transparent 64%),
+  linear-gradient(150deg,#212B29 0%,#080C0B 100%);}
+.f3{background:
+  radial-gradient(closest-side circle at 50% 52%,transparent 31%,rgba(230,238,236,.17) 32%,rgba(230,238,236,.03) 43%,transparent 44%),
+  radial-gradient(24% 24% at 43% 46%,rgba(214,160,117,.44),transparent 72%),
+  linear-gradient(160deg,#1A2321 0%,#080D0C 100%);}
+.f4{background:
+  repeating-linear-gradient(174deg,rgba(255,252,245,.13) 0 1px,transparent 1px 9px),
+  linear-gradient(100deg,transparent 22%,rgba(255,252,245,.2) 38%,rgba(255,252,245,.04) 47%,transparent 60%),
+  linear-gradient(168deg,#1C2422 0%,#050908 100%);}
+
+.shot h3{font-family:var(--display);font-weight:300;font-size:clamp(21px,2.3vw,30px);line-height:1.2;margin-bottom:6px}
+.shot .kicker{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper-deep);margin-bottom:10px}
+.shot p{font-size:15.5px;color:var(--ink-2);max-width:60ch;margin-bottom:.9em}
+.shot dl{display:grid;grid-template-columns:auto 1fr;gap:7px 18px;margin:18px 0 0;font-size:13.5px}
+.shot dt{color:var(--ink-4);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding-top:.32em}
+.shot dd{margin:0;color:var(--ink-2)}
+.echo{margin-top:16px;padding-left:14px;border-left:1px solid var(--copper);font-size:13.5px;color:var(--ink-3)}
+
+/* destaque do plano assinatura */
+.signature{background:var(--paper-3);padding:clamp(26px,3.4vw,46px);margin-top:clamp(28px,3.4vw,46px)}
+.signature .eyebrow{color:var(--copper-deep)}
+.signature p{font-size:16px;color:var(--ink-2);max-width:62ch;margin-top:14px}
+
+/* paleta */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px;margin-top:26px}
+.sw{padding:clamp(22px,2.6vw,34px) 18px 16px;color:#FBF9F5}
+.sw b{display:block;font-weight:400;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.sw span{display:block;font-size:11px;letter-spacing:.1em;margin-top:5px;opacity:.7;font-variant-numeric:tabular-nums}
+
+/* listas */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px)}
+ul.clean{list-style:none;margin:0;padding:0;display:grid;gap:11px}
+ul.clean li{font-size:15px;color:var(--ink-2);padding-left:20px;position:relative}
+ul.clean li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1px;background:var(--copper)}
+ul.no li::before{background:var(--ink-4);top:.62em;width:8px;height:1px;transform:none}
+ul.no li{color:var(--ink-3)}
+
+/* tabela */
+.tbl-wrap{overflow-x:auto;margin-top:26px}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
+th,td{text-align:left;padding:13px 16px 13px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);font-weight:400}
+td:first-child{color:var(--ink);white-space:nowrap;padding-right:32px}
+td{color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+pre{
+  background:var(--ink);color:#DCE8E6;padding:22px 24px;overflow-x:auto;
+  font-size:13px;line-height:1.65;margin-top:24px;
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+pre b{color:var(--copper);font-weight:400}
+pre i{color:#7EA09C;font-style:normal}
+
+footer{padding-block:clamp(44px,6vw,74px);font-size:13px;color:var(--ink-3)}
+
+@media (max-width:820px){
+  .shot{grid-template-columns:1fr;gap:18px}
+  .frame{aspect-ratio:4/3;max-width:340px}
+  .two{grid-template-columns:1fr}
+}
+</style>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="cover">
+  <div class="wrap">
+    <p class="eyebrow">Referency · Filme de hero · Briefing de produção</p>
+    <h1 class="display">Inventário</h1>
+    <p class="sub">O carro nunca anda. Só a luz se move.</p>
+
+    <div class="meta">
+      <span>Duração <b>14 s</b></span>
+      <span>Planos <b>4</b></span>
+      <span>Áudio <b>nenhum</b></span>
+      <span>Formato <b>3:4 retrato</b></span>
+      <span>Produção <b>meia diária</b></span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="no">01</span>
+      <h2 class="display">O conceito</h2>
+    </div>
+
+    <p class="lede">
+      A câmera se comporta como alguém que está <em>examinando</em> o carro, não
+      admirando. É o olhar de quem levanta o que existe antes de dizer qualquer
+      preço. Nenhum plano mostra o automóvel inteiro. Ninguém dirige. Nada se move
+      além da luz e da câmera.
+    </p>
+
+    <div class="golden">
+      <p>Todo vídeo de seguradora mostra o carro andando. Por isso o nosso não mostra.</p>
+      <p class="why">
+        Movimento em estrada vende liberdade, e liberdade é o que todo mundo já vende.
+        Uma superfície parada sob luz controlada vende outra coisa: exame, cuidado,
+        propriedade. É a diferença entre publicidade e ateliê, e é exatamente a
+        diferença que o site inteiro está tentando estabelecer.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="warm">
+  <div class="wrap">
+    <div class="head">
+      <span class="no">02</span>
+      <h2 class="display">Os quatro planos</h2>
+    </div>
+
+    <p class="lede" style="margin-bottom:clamp(30px,4vw,52px)">
+      Cada plano corresponde a uma seção do site. O filme não é decoração: é o
+      índice visual do que a Referency olha. Abre e fecha no escuro, e é isso que
+      costura o loop sem emenda visível.
+    </p>
+
+    <div class="shots">
+
+      <article class="shot">
+        <div class="frame f1">
+          <div class="safe"><span>Área segura 1:1</span></div>
+          <span class="tc">00:00 — 00:03,5</span>
+        </div>
+        <div>
+          <p class="kicker">Plano 01</p>
+          <h3>O farol apagado</h3>
+          <p>
+            Macro na lente do farol, com o carro desligado. Uma faixa de luz atravessa
+            a peça da esquerda para a direita e revela a estrutura interna: refletor,
+            projetor, a costura do policarbonato. O plano começa praticamente no preto
+            e a luz entra em quadro.
+          </p>
+          <dl>
+            <dt>Lente</dt><dd>Macro 100 mm, f/3,5</dd>
+            <dt>Movimento</dt><dd>Slider lateral, cerca de 3 cm por segundo</dd>
+            <dt>Luz</dt><dd>Tubo LED de 1,2 m percorrendo fora de quadro</dd>
+          </dl>
+          <p class="echo">Corresponde ao hero. É o primeiro frame que a pessoa vê do site.</p>
+        </div>
+      </article>
+
+      <article class="shot">
+        <div class="frame f2">
+          <div class="safe"><span>Área segura 1:1</span></div>
+          <span class="tc">00:03,5 — 00:07,0</span>
+        </div>
+        <div>
+          <p class="kicker">Plano 02</p>
+          <h3>A borda do PPF</h3>
+          <p>
+            Luz rasante sobre a pintura, quase paralela à lataria, revelando a linha
+            onde a película de proteção termina. É um detalhe que só existe para quem
+            sabe procurar, e é literalmente o assunto de um dos casos e de uma das
+            perguntas do site.
+          </p>
+          <dl>
+            <dt>Lente</dt><dd>Macro 100 mm, f/2,8, foco raso</dd>
+            <dt>Movimento</dt><dd>Deslize acompanhando a borda da película</dd>
+            <dt>Luz</dt><dd>Fonte dura em ângulo baixo, quase rente à superfície</dd>
+          </dl>
+          <p class="echo">Corresponde ao caso Macan GTS e à pergunta sobre acessórios declarados.</p>
+        </div>
+      </article>
+
+      <article class="shot">
+        <div class="frame f3">
+          <div class="safe"><span>Área segura 1:1</span></div>
+          <span class="tc">00:07,0 — 00:10,5</span>
+        </div>
+        <div>
+          <p class="kicker">Plano 03</p>
+          <h3>Aro e pinça</h3>
+          <p>
+            A câmera orbita cerca de dez graus em torno da roda parada. A pinça de
+            freio recebe um resto de luz quente. O aro passa devagar, e o reflexo
+            corre pelo raio. Único plano com curva de movimento, e por isso o único
+            que pode ter um leve toque de cor no metal.
+          </p>
+          <dl>
+            <dt>Lente</dt><dd>50 mm, f/2,8</dd>
+            <dt>Movimento</dt><dd>Órbita curta em slider curvo ou cabeça motorizada</dd>
+            <dt>Luz</dt><dd>Fonte principal alta, rebote quente baixo na pinça</dd>
+          </dl>
+          <p class="echo">Corresponde ao bloco Garagem, em Bastidores.</p>
+        </div>
+      </article>
+
+      <article class="shot">
+        <div class="frame f4">
+          <div class="safe"><span>Área segura 1:1</span></div>
+          <span class="tc">00:10,5 — 00:14,0</span>
+        </div>
+        <div>
+          <p class="kicker">Plano 04 · assinatura</p>
+          <h3>O contrato refletido na lataria</h3>
+          <p>
+            A pintura escura e polida preenche o quadro. Nela passa o reflexo
+            distorcido de uma página impressa das condições gerais, segurada fora de
+            quadro. Dá para perceber que é um documento, nunca para ler o texto.
+            A luz sai de campo, a lataria escurece, e o loop reinicia.
+          </p>
+          <dl>
+            <dt>Lente</dt><dd>50 mm ou macro, f/4 para segurar o reflexo</dd>
+            <dt>Movimento</dt><dd>Câmera parada. O papel é que se move.</dd>
+            <dt>Luz</dt><dd>Fonte por trás do papel, saindo de quadro no fim</dd>
+          </dl>
+          <p class="echo">Corresponde ao método e ao caso Taos. É o plano que amarra carro e contrato.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="signature">
+      <p class="eyebrow">Por que o plano 04 é o mais importante</p>
+      <p>
+        Ele é a tese da Referency em uma imagem: o automóvel e o documento no mesmo
+        quadro, um refletido no outro. Nenhum concorrente vai ter esse plano, porque
+        nenhum concorrente lê contrato. E é o plano mais barato dos quatro: precisa de
+        uma folha impressa, uma fonte de luz e uma lataria limpa.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="no">03</span>
+      <h2 class="display">Luz e cor</h2>
+    </div>
+
+    <p class="lede">
+      Uma fonte só, dura, quente. Garagem escura, chão de concreto ou epóxi,
+      paredes fora de foco. Sem janela, sem céu, sem rua. A marca aparece na
+      correção de cor, não em cima da imagem: <em>as sombras carregam o verde e as
+      luzes carregam o cobre.</em>
+    </p>
+
+    <div class="swatches">
+      <div class="sw" style="background:#003734">
+        <b>Sombras</b><span>#003734 · lift de 3% a 5%</span>
+      </div>
+      <div class="sw" style="background:#0B1211">
+        <b>Preto de base</b><span>#0B1211 · nunca 0,0,0</span>
+      </div>
+      <div class="sw" style="background:#D6A075;color:#2b1a0c">
+        <b>Altas luzes</b><span>#D6A075 · 3400 K a 4000 K</span>
+      </div>
+      <div class="sw" style="background:#E9E1D6;color:#003734">
+        <b>Papel do plano 04</b><span>#E9E1D6 · off-white quente</span>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:clamp(34px,4vw,52px)">
+      <div>
+        <p class="eyebrow" style="margin-bottom:16px">Regras de imagem</p>
+        <ul class="clean">
+          <li>Saturação geral baixa. A única cor que aparece é o quente da luz.</li>
+          <li>Preto nunca esmagado. A sombra tem que ter informação e um viés verde.</li>
+          <li>Grão fino de filme, sutil, para conversar com o grão do site.</li>
+          <li>Nada de azul ou ciano. É o vocabulário visual de seguradora e de tecnologia.</li>
+          <li>Nenhum plano com o carro inteiro em quadro.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:16px">Câmera</p>
+        <ul class="clean">
+          <li>Movimento de 2 a 5 cm por segundo. Se parecer lento no set, está certo.</li>
+          <li>Sempre em trilho ou cabeça motorizada. Nunca na mão, nunca gimbal andando.</li>
+          <li>Foco raso, mas sem rack focus dramático. O foco muda, não performa.</li>
+          <li>Filmar em 4K aberto e recortar depois. Dá liberdade de enquadramento.</li>
+          <li>24 fps, com o movimento já lento na captação. Menos correção na pós.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="warm">
+  <div class="wrap">
+    <div class="head">
+      <span class="no">04</span>
+      <h2 class="display">O que <em>não</em> pode entrar</h2>
+    </div>
+
+    <p class="lede" style="margin-bottom:26px">
+      Qualquer um destes itens derruba o conceito inteiro. Não é questão de gosto:
+      é o vocabulário que o site foi construído para evitar.
+    </p>
+
+    <div class="two">
+      <ul class="clean no">
+        <li>Carro em movimento, estrada, curva, pôr do sol</li>
+        <li>Pessoa dirigindo, mão girando o volante, chave sendo entregue</li>
+        <li>Família, criança, cachorro na janela</li>
+        <li>Drone, timelapse de cidade, luz de prédio</li>
+        <li>Velocímetro subindo, pneu cantando, freada</li>
+      </ul>
+      <ul class="clean no">
+        <li>Logo de montadora legível ou placa legível</li>
+        <li>Concessionária, adesivo de loja, fundo de showroom</li>
+        <li>Chuva estilizada, fumaça, faísca, fogo</li>
+        <li>Lens flare azul, reflexo anamórfico exagerado</li>
+        <li>Música. O vídeo é mudo e vai continuar mudo.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="no">05</span>
+      <h2 class="display">Entrega técnica</h2>
+    </div>
+
+    <p class="lede">
+      No desktop a coluna do hero fica em cerca de 3:4, e no celular ela fica em
+      cerca de 3:4 também. <em>Um único corte retrato serve nos dois.</em> Entre 640 e
+      900 pixels de largura o espaço deita, então toda a ação precisa caber numa
+      área segura quadrada no centro do quadro, marcada em cobre no storyboard.
+    </p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Especificação</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Master</td><td>4K aberto, log, 24 fps</td></tr>
+          <tr><td>Entrega web</td><td>1080 × 1440 (3:4), recorte com ação contida em 1080 × 1080 central</td></tr>
+          <tr><td>Formatos</td><td>WebM VP9 como fonte principal, MP4 H.264 alto perfil como reserva</td></tr>
+          <tr><td>Duração</td><td>14 s exatos, corte de loop no preto</td></tr>
+          <tr><td>Peso alvo</td><td>abaixo de 2 MB no WebM, abaixo de 3,5 MB no MP4</td></tr>
+          <tr><td>Áudio</td><td>faixa removida, não silenciada</td></tr>
+          <tr><td>Poster</td><td>não precisa. A superfície em CSS que já está no site é o poster.</td></tr>
+          <tr><td>Extras do mesmo dia</td><td>20 fotos macro e 3 aberturas verticais para os Reels</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="small" style="margin-top:26px;max-width:62ch">
+      O corte de loop no preto é o detalhe que faz o vídeo não ter começo nem fim
+      aparente. Sem ele, cada volta do loop tem um salto visível e o efeito de
+      ateliê se perde na terceira repetição.
+    </p>
+  </div>
+</section>
+
+<section class="warm">
+  <div class="wrap">
+    <div class="head">
+      <span class="no">06</span>
+      <h2 class="display">Como entra no site</h2>
+    </div>
+
+    <p class="lede">
+      O componente <code>Plate</code> já faz o parallax e já carrega o briefing.
+      Recebendo um vídeo, ele o coloca por cima da superfície em CSS, que continua
+      embaixo como base. Se o vídeo falhar, demorar, ou se a pessoa tiver pedido menos
+      movimento no sistema, o site não quebra: fica exatamente como está hoje.
+    </p>
+
+    <pre><i>// src/components/Hero.jsx</i>
+&lt;<b>Plate</b>
+  kind="head"
+  caption={hero.photo}
+  video="/inventario.webm"
+  videoFallback="/inventario.mp4"
+/&gt;
+
+<i>// dentro de Plate.jsx, sobre a superfície em CSS</i>
+&lt;<b>video</b> autoPlay muted loop playsInline preload="metadata"&gt;
+  &lt;source src={video} type="video/webm" /&gt;
+  &lt;source src={videoFallback} type="video/mp4" /&gt;
+&lt;/<b>video</b>&gt;</pre>
+
+    <div class="two" style="margin-top:clamp(30px,3.6vw,46px)">
+      <div>
+        <p class="eyebrow" style="margin-bottom:16px">Três cuidados</p>
+        <ul class="clean">
+          <li>O parallax da placa cai de 7% para 3%. O vídeo já tem movimento próprio, e somar os dois embrulha.</li>
+          <li>Não carregar o vídeo com <code>prefers-reduced-motion</code> ativo nem em conexão lenta. A superfície em CSS cobre esses casos.</li>
+          <li>O vídeo nunca pode segurar o primeiro render. Ele entra por cima depois, sem nunca ser o que a página espera para aparecer.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:16px">Se a produção atrasar</p>
+        <ul class="clean">
+          <li>O site publica sem vídeo nenhum e continua íntegro.</li>
+          <li>O plano 04 sozinho já é um filme. Se der para fazer só um, faça esse.</li>
+          <li>Frames dos Reels que já existem servem de foto estática enquanto isso.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Referency Corretora de Seguros · Sorocaba, SP<br>
+    Briefing de produção do filme de hero. As superfícies deste documento são
+    simulações em CSS, não frames de referência.
+  </div>
+</footer>
