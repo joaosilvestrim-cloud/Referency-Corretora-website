@@ -46,10 +46,28 @@ para formulário público:
 O schema está em `supabase/migrations/`. Para recriar em outro projeto, rode os
 dois arquivos `.sql` na ordem, no SQL Editor do Supabase.
 
-**Onde a corretora vê os leads:** painel do Supabase → Table Editor → `leads_painel`,
-ou SQL Editor com `select * from leads_painel;`.
-
 A `service_role` key e a senha do banco **nunca** entram no código nem no Git.
+
+## Painel de administração (`/admin`)
+
+Rota `/admin` no mesmo site, carregada em chunk separado (o site público não
+baixa o código do admin). Protegida por login do Supabase Auth **e** por
+pertencer à tabela `admins` — um signup qualquer não vira admin.
+
+Três seções:
+
+- **Leads** — lista, filtro por status (novo / contatado / fechado / descartado),
+  link de WhatsApp, anotação interna. Status e notas gravam na hora.
+- **Respostas** — agrega os diagnósticos: em qual pergunta as pessoas mais
+  têm dúvida, o momento de quem procura, quantos deixaram WhatsApp.
+- **Perguntas** — edita as perguntas do diagnóstico (texto, apoio, ordem,
+  ativa/oculta, adicionar/remover). O site passa a usar na hora, sem deploy.
+
+As perguntas vivem em `public.diagnostic_questions`; o site lê de lá com
+fallback para `content.js` se o banco não responder.
+
+**Criar um admin:** criar o usuário no Supabase (Auth → Users) e inserir o
+`user_id` dele em `public.admins`. Ver `supabase/migrations/0003_admin.sql`.
 
 ## Estrutura
 

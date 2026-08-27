@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { diagnostic as D, entryway, brand } from '../data/content'
-import { saveLead } from '../lib/leads'
+import { saveLead, fetchQuestions } from '../lib/leads'
 
 const EASE = [0.76, 0, 0.24, 1]
 const SOFT = [0.22, 0.61, 0.36, 1]
@@ -32,9 +32,18 @@ export function Diagnostic({ intent, onIntent, onClose }) {
   const [name, setName] = useState('')
   const [car, setCar] = useState('')
   const [contact, setContact] = useState('')
+  /* perguntas do banco (editáveis pela corretora); começa com o fallback do
+     content.js para não haver flash vazio enquanto carrega */
+  const [questions, setQuestions] = useState(D.questions)
   const saved = useRef(false)
 
-  const last = D.questions.length + 2
+  useEffect(() => {
+    let alive = true
+    fetchQuestions().then((qs) => { if (alive && qs.length) setQuestions(qs) })
+    return () => { alive = false }
+  }, [])
+
+  const last = questions.length + 2
   const progress = Math.min(step / last, 1)
 
   useEffect(() => {
@@ -45,11 +54,11 @@ export function Diagnostic({ intent, onIntent, onClose }) {
 
   const open = useMemo(
     () =>
-      D.questions.filter((q) => {
+      questions.filter((q) => {
         const a = D.answers.find((x) => x.id === answers[q.id])
         return a && a.weight > 0
       }),
-    [answers]
+    [answers, questions]
   )
 
   const waHref = `${brand.whatsapp}?text=${encodeURIComponent(
@@ -73,7 +82,7 @@ export function Diagnostic({ intent, onIntent, onClose }) {
   /* Grava o lead uma vez, quando a pessoa chega ao resultado. Já passou pela
      identificação, então é o momento de intenção mais claro. Nunca bloqueia:
      se o banco falhar, o resultado e o WhatsApp seguem normalmente. */
-  const resultStep = D.questions.length + 2
+  const resultStep = questions.length + 2
   useEffect(() => {
     if (step >= resultStep && !saved.current) {
       saved.current = true
@@ -97,7 +106,7 @@ export function Diagnostic({ intent, onIntent, onClose }) {
   /* Um painel por vez, remontado pela key. Sem esperar animação de saída:
      se o motion travar, o passo seguinte aparece do mesmo jeito. Num
      formulário que é o ponto de conversão do site, isso não é opcional. */
-  const question = step >= 1 && step <= D.questions.length ? D.questions[step - 1] : null
+  const question = step >= 1 && step <= questions.length ? questions[step - 1] : null
 
   return (
     <motion.div
@@ -159,7 +168,7 @@ export function Diagnostic({ intent, onIntent, onClose }) {
 
             {question && (
               <>
-                <p className="eyebrow">Pergunta {step} de {D.questions.length}</p>
+                <p className="eyebrow">Pergunta {step} de {questions.length}</p>
                 <h2 className="dg-q">{question.q}</h2>
                 <p className="dg-hint">{question.hint}</p>
                 <div className="dg-opts">
@@ -178,7 +187,7 @@ export function Diagnostic({ intent, onIntent, onClose }) {
               </>
             )}
 
-            {step === D.questions.length + 1 && (
+            {step === questions.length + 1 && (
               <>
                 <p className="eyebrow">{D.ident.title}</p>
                 <h2 className="dg-q">Quase lá.</h2>
@@ -221,7 +230,7 @@ export function Diagnostic({ intent, onIntent, onClose }) {
               </>
             )}
 
-            {step > D.questions.length + 1 && (
+            {step > questions.length + 1 && (
               <>
                 <p className="eyebrow">{D.result.eyebrow}</p>
                 <h2 className="dg-result">{headline}</h2>
