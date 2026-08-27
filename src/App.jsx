@@ -3,6 +3,8 @@ import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react'
 
 import { useLenis, lockScroll } from './hooks/useLenis'
 import { MediaProvider } from './components/MediaProvider'
+import { fetchCases, fetchBackstage } from './lib/siteContent'
+import { cases as casesData, backstage as backstageData } from './data/content'
 import { Preloader } from './components/Preloader'
 import { Cursor } from './components/Cursor'
 import { Nav } from './components/Nav'
@@ -36,6 +38,17 @@ export default function App() {
   const [caseIndex, setCaseIndex] = useState(null)
   const [diagOpen, setDiagOpen] = useState(false)
   const [briefing, setBriefing] = useState(false)
+
+  /* casos e bastidores começam com o fallback do content.js e trocam pelo que
+     está no banco assim que carrega, sem flash vazio */
+  const [caseItems, setCaseItems] = useState(casesData.items)
+  const [backstageItems, setBackstageItems] = useState(backstageData.items)
+  useEffect(() => {
+    let alive = true
+    fetchCases().then((d) => { if (alive && d.length) setCaseItems(d) })
+    fetchBackstage().then((d) => { if (alive && d.length) setBackstageItems(d) })
+    return () => { alive = false }
+  }, [])
 
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 180, damping: 34, mass: 0.3 })
@@ -91,12 +104,12 @@ export default function App() {
         <Hero start={loading ? 1.1 : 0.1} />
         <Entryway chosen={chosen} onChoose={setChosen} />
         <Questions />
-        <Cases onOpen={openCase} />
+        <Cases items={caseItems} onOpen={openCase} />
         <Method />
         <Concierge />
         <Practice />
         <Consorcio onDiagnostic={openDiag} />
-        <Backstage />
+        <Backstage items={backstageItems} />
         <Closing chosen={chosen} onDiagnostic={openDiag} />
       </main>
 
@@ -117,6 +130,7 @@ export default function App() {
         {caseIndex !== null && (
           <CaseOverlay
             key="case"
+            items={caseItems}
             index={caseIndex}
             onClose={closeCase}
             onNavigate={setCaseIndex}

@@ -280,6 +280,7 @@ export const backstage = {
   titleEm: 'durante a semana.',
   items: [
     {
+      id: 'caso_real',
       kicker: 'Caso real',
       title: 'O que aconteceu com o carro que ninguém queria segurar',
       body: 'Série sobre sinistros acompanhados de perto.',
@@ -287,6 +288,7 @@ export const backstage = {
       photo: 'Último Reels de caso publicado no perfil.',
     },
     {
+      id: 'risco_invisivel',
       kicker: 'Risco invisível',
       title: 'Uma cláusula que aparece em quase toda apólice e quase ninguém lê',
       body: 'O que encontramos lendo contratos de mercado.',
@@ -294,6 +296,7 @@ export const backstage = {
       photo: 'Foto: trecho de condições gerais marcado. Detalhe fechado.',
     },
     {
+      id: 'garagem',
       kicker: 'Garagem',
       title: 'Um automóvel interessante que passou por aqui',
       body: 'Porque também gostamos de carro.',

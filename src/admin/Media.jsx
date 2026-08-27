@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { mediaSlots } from '../data/mediaSlots'
+import { buildMediaSlots } from '../data/mediaSlots'
 import { fetchMedia, uploadMedia, removeMedia } from '../lib/media'
+import { fetchCases, fetchBackstage } from '../lib/siteContent'
 
 const MAX = 60 * 1024 * 1024 // 60 MB, igual ao limite do bucket
 
@@ -69,8 +70,14 @@ function SlotRow({ slot, current, onChange, toast }) {
 
 export function Media({ toast }) {
   const [map, setMap] = useState(null)
+  const [slots, setSlots] = useState(buildMediaSlots())
 
   useEffect(() => { fetchMedia().then(setMap) }, [])
+  /* os slots de caso/bastidor vêm do banco, então mídia nova acompanha
+     conteúdo novo */
+  useEffect(() => {
+    Promise.all([fetchCases(), fetchBackstage()]).then(([cs, bs]) => setSlots(buildMediaSlots(cs, bs)))
+  }, [])
 
   const change = (id, m) => setMap((prev) => {
     const next = { ...prev }
@@ -87,7 +94,7 @@ export function Media({ toast }) {
     <>
       <div className="adm-h">
         <h2>Mídias</h2>
-        <span className="sub">{usados} de {mediaSlots.length} com arquivo próprio</span>
+        <span className="sub">{usados} de {slots.length} com arquivo próprio</span>
       </div>
 
       <p className="adm-muted" style={{ marginBottom: 22, maxWidth: '64ch' }}>
@@ -97,7 +104,7 @@ export function Media({ toast }) {
       </p>
 
       <div className="md-grid">
-        {mediaSlots.map((slot) => (
+        {slots.map((slot) => (
           <SlotRow key={slot.id} slot={slot} current={map[slot.id]} onChange={change} toast={toast} />
         ))}
       </div>

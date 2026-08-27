@@ -1,28 +1,33 @@
 import { cases, backstage } from './content'
 
-/* Onde cabe mídia no site. Gerado a partir do próprio conteúdo, então quando
-   um caso ou bastidor muda de nome, o rótulo no painel acompanha sozinho.
-   Os ids casam com o `slot` que cada Plate consulta. */
-export const mediaSlots = [
-  {
-    id: 'hero',
-    label: 'Vídeo de fundo do hero',
-    where: 'Topo do site',
-    accept: 'video/*',
-    hint: 'Vídeo vertical, curto, escuro, em loop. O que já está no ar é o padrão.',
-  },
-  ...cases.items.map((c) => ({
-    id: `case_${c.id}`,
-    label: `Caso · ${c.title}`,
-    where: 'Casos reais',
-    accept: 'image/*,video/*',
-    hint: 'Foto ou vídeo. Retrato ou paisagem, o corte é automático.',
-  })),
-  ...backstage.items.map((b, i) => ({
-    id: `bt_${i}`,
-    label: `Bastidores · ${b.kicker}`,
-    where: 'Bastidores',
-    accept: 'image/*,video/*',
-    hint: 'Foto vertical funciona melhor aqui.',
-  })),
-]
+/* Monta a lista de slots de mídia a partir de casos e bastidores. O painel de
+   Mídias passa o que veio do banco; sem argumento, cai no content.js. Assim,
+   quando a corretora cria um caso novo, ele ganha um slot de mídia sozinho. */
+export function buildMediaSlots(caseItems = cases.items, backstageItems = backstage.items) {
+  return [
+    {
+      id: 'hero',
+      label: 'Vídeo de fundo do hero',
+      where: 'Topo do site',
+      accept: 'video/*',
+      hint: 'Vídeo vertical, curto, escuro, em loop. O que já está no ar é o padrão.',
+    },
+    ...caseItems.map((c) => ({
+      id: `case_${c.id}`,
+      label: `Caso · ${c.title}`,
+      where: 'Casos reais',
+      accept: 'image/*,video/*',
+      hint: 'Foto ou vídeo. Retrato ou paisagem, o corte é automático.',
+    })),
+    ...backstageItems.map((b) => ({
+      id: `bt_${b.id}`,
+      label: `Bastidores · ${b.kicker}`,
+      where: 'Bastidores',
+      accept: 'image/*,video/*',
+      hint: 'Foto vertical funciona melhor aqui.',
+    })),
+  ]
+}
+
+/* lista padrão, para quem importa direto sem os dados do banco */
+export const mediaSlots = buildMediaSlots()

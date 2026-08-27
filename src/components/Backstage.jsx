@@ -2,7 +2,7 @@ import { backstage, brand } from '../data/content'
 import { Reveal, SplitText } from './Reveal'
 import { Plate } from './Plate'
 
-export function Backstage() {
+export function Backstage({ items = backstage.items }) {
   return (
     <section className="band paper-2" id="bastidores">
       <div className="wrap">
@@ -20,10 +20,10 @@ export function Backstage() {
         </div>
 
         <div className="bts">
-          {backstage.items.map((b, i) => (
+          {items.map((b, i) => (
             <Reveal
               as="a"
-              key={b.kicker}
+              key={b.id || b.kicker}
               className="bt"
               delay={i * 0.09}
               href={brand.instagram}
@@ -32,7 +32,7 @@ export function Backstage() {
               data-cursor-label="Ver"
             >
               <div className="bt-media">
-                <Plate kind={b.plate} slot={`bt_${i}`} caption={b.photo} />
+                <Plate kind={b.plate} slot={`bt_${b.id ?? i}`} caption={b.photo} />
               </div>
               <p className="bt-kicker">{b.kicker}</p>
               <h3 className="bt-t">{b.title}</h3>

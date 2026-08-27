@@ -2,7 +2,7 @@ import { cases } from '../data/content'
 import { Reveal, SplitText } from './Reveal'
 import { Plate } from './Plate'
 
-export function Cases({ onOpen }) {
+export function Cases({ items = cases.items, onOpen }) {
   return (
     <section className="band" id="casos">
       <div className="wrap">
@@ -20,7 +20,7 @@ export function Cases({ onOpen }) {
         </div>
 
         <div className="cases">
-          {cases.items.map((c, i) => (
+          {items.map((c, i) => (
             <Reveal
               key={c.id}
               as="button"
@@ -44,7 +44,7 @@ export function Cases({ onOpen }) {
                 {c.kicker}
               </p>
               <h3 className="case-title">
-                {c.title} <span>— {c.subtitle.toLowerCase()}</span>
+                {c.title}{c.subtitle && <span> — {c.subtitle.toLowerCase()}</span>}
               </h3>
               <p className="case-sub">{c.teaser}</p>
             </Reveal>

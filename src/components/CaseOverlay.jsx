@@ -12,9 +12,9 @@ const stagger = (i) => ({
   transition: { duration: 0.7, ease: SOFT, delay: 0.3 + i * 0.07 },
 })
 
-export function CaseOverlay({ index, onClose, onNavigate }) {
-  const c = cases.items[index]
-  const next = (index + 1) % cases.items.length
+export function CaseOverlay({ items = cases.items, index, onClose, onNavigate }) {
+  const c = items[index]
+  const next = (index + 1) % items.length
 
   useEffect(() => {
     const onKey = (e) => {
@@ -38,7 +38,7 @@ export function CaseOverlay({ index, onClose, onNavigate }) {
     >
       <div className="ov-head">
         <span className="eyebrow">
-          <b className="ov-count">{String(index + 1).padStart(2, '0')} / {String(cases.items.length).padStart(2, '0')}</b>
+          <b className="ov-count">{String(index + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</b>
           {c.kicker}
         </span>
         <button className="ov-close" onClick={onClose}>
