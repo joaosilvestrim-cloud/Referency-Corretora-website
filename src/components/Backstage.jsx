@@ -32,7 +32,7 @@ export function Backstage() {
               data-cursor-label="Ver"
             >
               <div className="bt-media">
-                <Plate kind={b.plate} caption={b.photo} />
+                <Plate kind={b.plate} slot={`bt_${i}`} caption={b.photo} />
               </div>
               <p className="bt-kicker">{b.kicker}</p>
               <h3 className="bt-t">{b.title}</h3>

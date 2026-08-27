@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
+import { useMedia } from './MediaProvider'
 
 /* Só carrega vídeo quando faz sentido: com movimento liberado, numa aba visível
    e fora do modo de economia de dados. Nos outros casos a superfície em CSS
-   continua sozinha, que é exatamente o que já está no ar hoje. */
+   continua sozinha. */
 function shouldLoadVideo() {
   if (typeof window === 'undefined') return false
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
@@ -13,49 +14,75 @@ function shouldLoadVideo() {
 }
 
 /* Superfície que ocupa o lugar da foto real.
-   `caption` é o briefing da tomada, revelado pelo botão de briefing.
-   `video` é opcional: quando existe, entra por cima sem nunca segurar o render.
-   `parallax` desloca a superfície durante o scroll, como uma foto de verdade faria. */
-export function Plate({ kind = 'head', caption, video, parallax = true, className = '', children }) {
+   Ordem de preferência do que preenche a superfície:
+     1. mídia enviada pelo painel para este `slot` (imagem ou vídeo)
+     2. `video` estático passado por prop (o filme do hero que vem no build)
+     3. a superfície em CSS sozinha
+   `caption` é o briefing da tomada, revelado pelo botão de briefing. */
+export function Plate({ kind = 'head', slot, caption, video, parallax = true, className = '', children }) {
+  const media = useMedia()
+  const uploaded = slot ? media[slot] : null
+
   const ref = useRef(null)
-  const [ready, setReady] = useState(false)
-  const [wanted, setWanted] = useState(false)
+  const [videoReady, setVideoReady] = useState(false)
+  const [wantVideo, setWantVideo] = useState(false)
+
+  const showUploadImage = uploaded?.kind === 'image'
+  const uploadedVideoUrl = uploaded?.kind === 'video' ? uploaded.url : null
+  const staticVideo = !uploaded && video ? video : null
+  const hasVideo = Boolean(uploadedVideoUrl || staticVideo)
 
   useEffect(() => {
-    if (video) setWanted(shouldLoadVideo())
-  }, [video])
+    if (hasVideo) setWantVideo(shouldLoadVideo())
+  }, [hasVideo])
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-
-  /* com vídeo o parallax cai pela metade: o filme já tem movimento próprio
-     e somar os dois embrulha a imagem */
-  const range = !parallax ? 0 : ready ? 3 : 7
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  /* com mídia real o parallax cai pela metade: foto/vídeo já têm presença
+     própria e o excesso de deslocamento incomoda */
+  const active = showUploadImage || videoReady
+  const range = !parallax ? 0 : active ? 3 : 7
   const y = useTransform(scrollYProgress, [0, 1], [`-${range}%`, `${range}%`])
 
   return (
     <div ref={ref} className={`plate pl-${kind} ${className}`} data-cursor="media">
       <motion.div className="plate-inner" style={{ y }}>
-        {video && wanted && (
+        {showUploadImage && (
+          <motion.img
+            className="plate-img"
+            src={uploaded.url}
+            alt=""
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
+          />
+        )}
+
+        {hasVideo && wantVideo && (
           <motion.video
+            key={uploadedVideoUrl || 'static'}
             className="plate-video"
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
-            onCanPlay={() => setReady(true)}
+            onCanPlay={() => setVideoReady(true)}
             initial={{ opacity: 0 }}
-            animate={{ opacity: ready ? 1 : 0 }}
+            animate={{ opacity: videoReady ? 1 : 0 }}
             transition={{ duration: 1.1, ease: [0.22, 0.61, 0.36, 1] }}
           >
-            {video.webm && <source src={video.webm} type="video/webm" />}
-            {video.mp4 && <source src={video.mp4} type="video/mp4" />}
+            {uploadedVideoUrl ? (
+              <source src={uploadedVideoUrl} />
+            ) : (
+              <>
+                {staticVideo.webm && <source src={staticVideo.webm} type="video/webm" />}
+                {staticVideo.mp4 && <source src={staticVideo.mp4} type="video/mp4" />}
+              </>
+            )}
           </motion.video>
         )}
       </motion.div>
+
       {caption && <span className="cap">{caption}</span>}
       {children}
     </div>

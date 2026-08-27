@@ -65,7 +65,7 @@ export function Hero({ start = 0 }) {
         animate={{ clipPath: 'inset(0 0 0% 0)' }}
         transition={{ duration: 1.25, ease: EASE, delay: start }}
       >
-        <Plate kind="head" caption={hero.photo} video={hero.video} />
+        <Plate kind="head" slot="hero" caption={hero.photo} video={hero.video} />
         <div className="scroll-hint">
           Role
           <motion.i

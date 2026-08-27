@@ -32,7 +32,7 @@ export function Cases({ onOpen }) {
               aria-label={`Abrir o caso ${c.title}`}
             >
               <div className="case-media">
-                <Plate kind={c.plate} caption={c.photo} />
+                <Plate kind={c.plate} slot={`case_${c.id}`} caption={c.photo} />
                 {c.video && (
                   <span className="case-play">
                     <span className="tri" /> Vídeo · {c.video}

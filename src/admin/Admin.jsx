@@ -4,12 +4,14 @@ import { Login } from './Login'
 import { Leads } from './Leads'
 import { Questions } from './Questions'
 import { Responses } from './Responses'
+import { Media } from './Media'
 import './admin.css'
 
 const TABS = [
   { id: 'leads', label: 'Leads', C: Leads },
   { id: 'respostas', label: 'Respostas', C: Responses },
   { id: 'perguntas', label: 'Perguntas', C: Questions },
+  { id: 'midias', label: 'Mídias', C: Media },
 ]
 
 export default function Admin() {

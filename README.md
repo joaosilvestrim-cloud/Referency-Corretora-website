@@ -69,6 +69,21 @@ fallback para `content.js` se o banco não responder.
 **Criar um admin:** criar o usuário no Supabase (Auth → Users) e inserir o
 `user_id` dele em `public.admins`. Ver `supabase/migrations/0003_admin.sql`.
 
+### Mídias (aba do admin)
+
+Cada superfície do site (hero, casos, bastidores) é um "slot". A aba **Mídias**
+sobe uma foto ou vídeo para o slot; o site troca a superfície em CSS pela mídia
+na hora. Sem envio, fica o padrão em CSS. "Voltar ao padrão" apaga o arquivo.
+
+- arquivos no bucket público `media` do Storage (upload só de admin, via RLS)
+- mapa slot→arquivo em `public.media`
+- o site lê via `fetchMedia()` (contexto `MediaProvider`), com fallback para a
+  superfície em CSS se o banco não responder
+- os slots são gerados de `src/data/mediaSlots.js` a partir do conteúdo, então
+  acompanham quando um caso muda de nome
+
+Cada `Plate` recebe um `slot`; se houver mídia, ela entra por cima do CSS.
+
 ## Estrutura
 
 ```

@@ -50,7 +50,7 @@ export function CaseOverlay({ index, onClose, onNavigate }) {
       <div className="ov-body">
         <div className="ov-in">
           <motion.div className="ov-media" {...stagger(0)}>
-            <Plate kind={c.plate} caption={c.photo} parallax={false} />
+            <Plate kind={c.plate} slot={`case_${c.id}`} caption={c.photo} parallax={false} />
             {c.video && (
               <span className="case-play">
                 <span className="tri" /> Vídeo · {c.video}

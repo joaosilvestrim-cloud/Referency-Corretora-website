@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react'
 
 import { useLenis, lockScroll } from './hooks/useLenis'
+import { MediaProvider } from './components/MediaProvider'
 import { Preloader } from './components/Preloader'
 import { Cursor } from './components/Cursor'
 import { Nav } from './components/Nav'
@@ -75,7 +76,7 @@ export default function App() {
   }, [])
 
   return (
-    <>
+    <MediaProvider>
       <AnimatePresence>
         {loading && <Preloader key="preload" />}
       </AnimatePresence>
@@ -130,6 +131,6 @@ export default function App() {
       >
         Briefing de fotografia
       </button>
-    </>
+    </MediaProvider>
   )
 }
