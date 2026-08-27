@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { diagnostic as D, entryway, brand } from '../data/content'
+import { saveLead } from '../lib/leads'
 
 const EASE = [0.76, 0, 0.24, 1]
 const SOFT = [0.22, 0.61, 0.36, 1]
@@ -30,6 +31,8 @@ export function Diagnostic({ intent, onIntent, onClose }) {
   const [answers, setAnswers] = useState({})
   const [name, setName] = useState('')
   const [car, setCar] = useState('')
+  const [contact, setContact] = useState('')
+  const saved = useRef(false)
 
   const last = D.questions.length + 2
   const progress = Math.min(step / last, 1)
@@ -62,8 +65,27 @@ export function Diagnostic({ intent, onIntent, onClose }) {
     setAnswers({})
     setName('')
     setCar('')
+    setContact('')
+    saved.current = false
     setStep(0)
   }
+
+  /* Grava o lead uma vez, quando a pessoa chega ao resultado. Já passou pela
+     identificação, então é o momento de intenção mais claro. Nunca bloqueia:
+     se o banco falhar, o resultado e o WhatsApp seguem normalmente. */
+  const resultStep = D.questions.length + 2
+  useEffect(() => {
+    if (step >= resultStep && !saved.current) {
+      saved.current = true
+      saveLead({
+        intent: intent !== null ? entryway.options[intent].label : null,
+        name, car, contact,
+        openPoints: open.map((q) => q.short),
+        answers,
+        score: open.length,
+      })
+    }
+  }, [step, resultStep, intent, name, car, contact, open, answers])
 
   const headline =
     open.length === 0
@@ -176,6 +198,16 @@ export function Diagnostic({ intent, onIntent, onClose }) {
                       value={car}
                       onChange={(e) => setCar(e.target.value)}
                       placeholder={D.ident.carPlaceholder}
+                    />
+                  </label>
+                  <label className="dg-field">
+                    <span>{D.ident.contact}</span>
+                    <input
+                      value={contact}
+                      onChange={(e) => setContact(e.target.value)}
+                      placeholder={D.ident.contactPlaceholder}
+                      inputMode="tel"
+                      autoComplete="tel"
                     />
                   </label>
                 </div>

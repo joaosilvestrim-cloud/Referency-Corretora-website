@@ -312,7 +312,7 @@ export const diagnostic = {
   open: 'Diagnóstico',
   title: 'Quatro perguntas sobre a sua apólice',
   intro: 'Nenhuma delas aparece num comparador de preço. Todas aparecem num sinistro. Leva menos de um minuto.',
-  privacy: 'Nada é enviado para servidor nenhum. No fim, a sua resposta vira uma mensagem pronta que você decide se manda.',
+  privacy: 'Suas respostas ficam no seu navegador enquanto você avança. No final, elas são enviadas à Referency para prepararmos a leitura, e viram uma mensagem pronta no WhatsApp que você decide se manda.',
 
   answers: [
     { id: 'sei', label: 'Sei responder', weight: 0 },
@@ -353,6 +353,8 @@ export const diagnostic = {
     namePlaceholder: 'Como podemos chamar você',
     car: 'Carro',
     carPlaceholder: 'Modelo e ano, se quiser adiantar',
+    contact: 'WhatsApp (opcional)',
+    contactPlaceholder: 'Para retornarmos, se preferir',
   },
 
   result: {

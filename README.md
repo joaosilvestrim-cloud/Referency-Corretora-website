@@ -14,13 +14,42 @@ npm run preview  # serve o build
 
 ## Deploy
 
-Estático puro. Na Vercel, preset **Vite**, sem variável de ambiente:
+Na Vercel, preset **Vite**:
 
 | Campo | Valor |
 |---|---|
 | Build command | `npm run build` |
 | Output directory | `dist` |
 | Install command | `npm install` |
+
+**Variáveis de ambiente** (Settings → Environment Variables), as duas em todos
+os ambientes:
+
+| Nome | Valor |
+|---|---|
+| `VITE_SUPABASE_URL` | `https://tvnrwcxkimdkjgwxgfxz.supabase.co` |
+| `VITE_SUPABASE_ANON_KEY` | a anon key do projeto |
+
+São chaves **públicas** por design (a `anon` vive no frontend, protegida por
+RLS). Sem elas o site funciona igual, só não grava o lead no banco. Estão em
+`.env.local` para desenvolvimento, que **não** vai para o Git.
+
+## Captura de leads (Supabase)
+
+O diagnóstico grava cada resposta na tabela `public.leads`. O padrão é o seguro
+para formulário público:
+
+- a `anon` key só **insere**, nunca **lê** (RLS insert-only)
+- ninguém pelo site enxerga lead de outra pessoa
+- a corretora lê pelo painel do Supabase, na view `leads_painel`
+
+O schema está em `supabase/migrations/`. Para recriar em outro projeto, rode os
+dois arquivos `.sql` na ordem, no SQL Editor do Supabase.
+
+**Onde a corretora vê os leads:** painel do Supabase → Table Editor → `leads_painel`,
+ou SQL Editor com `select * from leads_painel;`.
+
+A `service_role` key e a senha do banco **nunca** entram no código nem no Git.
 
 ## Estrutura
 
@@ -36,7 +65,9 @@ src/
     Preloader.jsx      cortina de abertura
     Nav / Hero / Entryway / Questions / Cases / CaseOverlay /
     Method / Concierge / Practice / Backstage / Closing / Footer
+  lib/leads.js         grava o lead no Supabase (anon key, insert-only)
 public/                logos extraídos do manual de marca
+supabase/migrations/   schema da tabela de leads
 docs/                  protótipo estático que originou o projeto
 scripts/               gera a versão de arquivo único
 ```
