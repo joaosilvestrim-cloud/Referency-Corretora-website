@@ -12,6 +12,13 @@ export function buildMediaSlots(caseItems = cases.items, backstageItems = backst
       accept: 'video/*',
       hint: 'Vídeo vertical, curto, escuro, em loop. O que já está no ar é o padrão.',
     },
+    {
+      id: 'atelie',
+      label: 'Retrato do Matheus',
+      where: 'O ateliê',
+      accept: 'image/*,video/*',
+      hint: 'Retrato vertical, luz natural, fundo neutro. Um vídeo curto também cabe.',
+    },
     ...caseItems.map((c) => ({
       id: `case_${c.id}`,
       label: `Caso · ${c.title}`,

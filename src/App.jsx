@@ -17,6 +17,7 @@ import { Diagnostic } from './components/Diagnostic'
 import { CaseOverlay } from './components/CaseOverlay'
 import { Method } from './components/Method'
 import { Concierge } from './components/Concierge'
+import { Atelie } from './components/Atelie'
 import { Practice } from './components/Practice'
 import { Backstage } from './components/Backstage'
 import { Closing } from './components/Closing'
@@ -107,6 +108,7 @@ export default function App() {
         <Cases items={caseItems} onOpen={openCase} />
         <Method />
         <Concierge />
+        <Atelie />
         <Practice />
         <Consorcio onDiagnostic={openDiag} />
         <Backstage items={backstageItems} />

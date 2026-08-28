@@ -663,3 +663,34 @@ body.briefing .brief-toggle{background:var(--ink);color:var(--paper);border-colo
   .cs-grid{grid-template-columns:1fr}
   .dg-body{align-items:flex-start}
 }
+
+/* ============================================================
+   O ATELIÊ
+   ============================================================ */
+.atelie{display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(30px,5vw,80px);align-items:start}
+.atelie-media{position:sticky;top:110px}
+.atelie-portrait{position:relative;aspect-ratio:4/5;overflow:hidden}
+.atelie-portrait .plate{position:absolute;inset:0}
+.atelie-note{margin-top:18px;font-size:13px;line-height:1.6;color:var(--ink-3);max-width:34ch}
+.atelie-text{max-width:56ch}
+.atelie-body{margin-top:clamp(20px,2.4vw,30px);display:grid;gap:1.05em}
+.atelie-body p{font-size:16.5px;line-height:1.7;color:var(--ink-2)}
+.atelie-quote{margin:clamp(30px,3.6vw,46px) 0;padding-left:20px;border-left:1px solid var(--copper)}
+.atelie-quote .display{font-size:clamp(22px,2.5vw,32px);font-weight:200;font-style:italic;line-height:1.24;color:var(--ink)}
+.atelie-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:clamp(20px,2.4vw,30px);
+}
+.atelie-stat{background:var(--paper-2);padding:20px clamp(12px,1.6vw,20px);display:flex;flex-direction:column;gap:8px}
+.atelie-stat .n{font-family:var(--display);font-weight:200;font-size:clamp(20px,2vw,27px);letter-spacing:-.01em;line-height:1;color:var(--ink)}
+.atelie-stat .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-4);line-height:1.4}
+
+@media (max-width:900px){
+  .atelie{grid-template-columns:1fr;gap:28px}
+  .atelie-media{position:static}
+  .atelie-portrait{aspect-ratio:3/4;max-width:360px}
+  .atelie-text{max-width:none}
+}
+@media (max-width:560px){
+  .atelie-stats{grid-template-columns:repeat(2,1fr)}
+}

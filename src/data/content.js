@@ -9,14 +9,14 @@ export const brand = {
   whatsappLabel: '(15) 98188-8299',
   instagram: 'https://www.instagram.com/referency_seguros',
   instagramHandle: '@referency_seguros',
-  susep: 'Corretora registrada na SUSEP · nº a informar',
+  susep: 'Corretora registrada na SUSEP · nº 212461875',
 }
 
 export const nav = [
-  { href: '#perguntas', label: 'Perguntas' },
   { href: '#casos', label: 'Casos' },
   { href: '#metodo', label: 'Método' },
   { href: '#sinistro', label: 'Sinistro' },
+  { href: '#atelie', label: 'Ateliê' },
   { href: '#atuacao', label: 'Atuação' },
   { href: '#consorcio', label: 'Consórcio' },
 ]
@@ -246,6 +246,31 @@ export const practice = {
       note: 'Trabalhamos com um objetivo declarado e uma data alvo. Se o plano não sustenta essa data, o certo é dizer isso antes da assinatura.',
     },
   ],
+}
+
+/* ------------------------------------------------------------
+   O ateliê. Escrito a partir dos áudios do Matheus, na voz dele.
+   Seção humana, entra depois do Concierge.
+   ------------------------------------------------------------ */
+export const atelie = {
+  eyebrow: 'O ateliê',
+  title: 'Antes de vender seguro,',
+  titleEm: 'a gente consertava carro.',
+  lede: 'Matheus trabalha com carro desde os onze anos. Foram catorze deles dentro de uma oficina de reparo, vendo de perto o que acontece com uma pessoa depois da batida.',
+  body: [
+    'É daí que nasce a Referency. Quando alguém bate, perde o chão. Fica desorientado e se sente sozinho, mesmo sabendo exatamente o que fazer. O mercado responde com um 0800. A gente aprendeu a fazer o contrário: baixar a tensão e orientar desde o primeiro minuto.',
+    'O mercado monta um seguro e replica para cinco mil clientes. A gente monta um seguro para um cliente. Sob medida, nem a mais nem a menos. Você não paga pelo que não vai usar, e não descobre o que faltou justo no pior dia.',
+    'Dá para baixar o preço baixando a proteção. A gente não faz. Se a conta não fecha do jeito certo, a gente diz, mesmo perdendo a venda.',
+  ],
+  quote: 'Não abro mão de cuidar no momento em que o cliente precisa.',
+  stats: [
+    { n: '25 anos', l: 'vivendo carro' },
+    { n: '14 anos', l: 'dentro da oficina' },
+    { n: 'Sob medida', l: 'cada apólice' },
+    { n: 'Por indicação', l: 'cada cliente' },
+  ],
+  note: 'Pelo caminho, alguns projetos raros no país, que até hoje trazem gente até aqui.',
+  photo: 'Foto: retrato do Matheus, luz natural, fundo neutro. Sem terno de banco, sem braço cruzado.',
 }
 
 export const backstage = {
