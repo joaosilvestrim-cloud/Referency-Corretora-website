@@ -24,13 +24,11 @@ export const nav = [
 export const hero = {
   eyebrow: 'Ateliê de seguro automotivo · Sorocaba, SP',
 
-  /* Alternativas para a frase de abertura, se quiser trocar:
-     · 'O carro você escolheu com cuidado.' / 'A apólice, provavelmente não.'
-     · 'Todo seguro parece bom' / 'até o dia do acidente.'
-     · 'Você só descobre a sua apólice' / 'no dia em que precisa dela.'
-     · 'O carro você escolheu.' / 'Agora escolha como protegê-lo.'  (versão anterior) */
-  title: 'Ninguém lê a apólice antes do acidente.',
-  titleEm: 'Nós lemos.',
+  /* Alternativas anteriores, se quiser voltar:
+     · 'Ninguém lê a apólice antes do acidente.' / 'Nós lemos.'
+     · 'O carro você escolheu.' / 'Agora escolha como protegê-lo.' */
+  title: 'A maioria só descobre o que comprou quando precisa usar.',
+  titleEm: 'Nós preferimos descobrir antes.',
 
   lede: 'Estruturamos a apólice lendo o contrato inteiro, não o resumo da proposta. É ali que duas propostas parecidas deixam de ser parecidas.',
   cta: 'Começar um diagnóstico',
@@ -135,7 +133,6 @@ export const cases = {
       plate: 'body',
       video: '1:12',
       photo: 'Vídeo (Reels): o Mustang no pátio. Corte curto, som ambiente, sem trilha.',
-      size: 'wide',
     },
     {
       id: 'amarok',
@@ -148,7 +145,6 @@ export const cases = {
       plate: 'garage',
       video: '0:58',
       photo: 'Vídeo (Reels): a Amarok já na oficina, plano fixo. Narração em off do Matheus.',
-      size: 'wide',
     },
     {
       id: 'porsche',
@@ -159,29 +155,8 @@ export const cases = {
       body: 'A seguradora era adequada ao perfil. O produto contratado dentro dela, não. Rede referenciada, critério de peça e limites de terceiros não conversavam com o carro.',
       verdict: 'Trocar de produto, não de seguradora.',
       plate: 'cockpit',
-      photo: 'Foto: detalhe do volante e console do 911. Luz baixa, quente.',
-    },
-    {
-      id: 'macan',
-      kicker: 'Acessórios e agregados',
-      title: 'Macan GTS',
-      subtitle: 'A apólice precisava saber do PPF',
-      teaser: 'Havia milhares de reais em PPF no carro. A apólice precisava saber disso.',
-      body: 'Proteção de pintura, rodas e itens de reposição não declarados simplesmente não existem para a seguradora. Foram levantados, avaliados e incluídos com valor antes da renovação.',
-      verdict: 'Declarar o que já tinha sido pago.',
-      plate: 'carbon',
-      photo: 'Foto: macro do PPF sobre a pintura, luz rasante mostrando a película.',
-    },
-    {
-      id: 'taos',
-      kicker: 'Condições gerais',
-      title: 'Taos',
-      subtitle: 'A lanterna era nova. Só não era original.',
-      teaser: 'Fomos às condições gerais descobrir o que o contrato realmente dizia.',
-      body: 'A peça entregue era nova e funcional, mas não genuína. O contrato tinha uma cláusula específica sobre isso, e ela estava a favor do segurado. Bastou alguém ler.',
-      verdict: 'O contrato inteiro, não o resumo da apólice.',
-      plate: 'paper',
-      photo: 'Foto: as condições gerais impressas sobre a mesa, marcadas à mão. Sem rosto.',
+      video: 'sim',
+      photo: 'Vídeo: o 911 na garagem. Detalhe e narração em off do Matheus.',
     },
   ],
 }

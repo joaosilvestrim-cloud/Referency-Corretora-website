@@ -53,7 +53,7 @@ export function CaseOverlay({ items = cases.items, index, onClose, onNavigate })
             <Plate kind={c.plate} slot={`case_${c.id}`} caption={c.photo} parallax={false} />
             {c.video && (
               <span className="case-play">
-                <span className="tri" /> Vídeo · {c.video}
+                <span className="tri" /> {String(c.video).includes(':') ? `Vídeo · ${c.video}` : 'Vídeo'}
               </span>
             )}
           </motion.div>

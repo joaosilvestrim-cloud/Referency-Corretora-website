@@ -35,7 +35,7 @@ export function Cases({ items = cases.items, onOpen }) {
                 <Plate kind={c.plate} slot={`case_${c.id}`} caption={c.photo} />
                 {c.video && (
                   <span className="case-play">
-                    <span className="tri" /> Vídeo · {c.video}
+                    <span className="tri" /> {String(c.video).includes(':') ? `Vídeo · ${c.video}` : 'Vídeo'}
                   </span>
                 )}
               </div>
