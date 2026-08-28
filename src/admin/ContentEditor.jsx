@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { adminFetch, saveList } from '../lib/siteContent'
+import { fetchMedia } from '../lib/media'
+import { MediaControl } from './MediaControl'
 
 const slug = (s) =>
   (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
@@ -9,16 +11,25 @@ const slug = (s) =>
    da tabela e a descrição dos campos; cuida de carregar, editar, reordenar,
    adicionar, remover e salvar. Salvar publica no site na hora, porque o site
    lê da mesma tabela. */
-export function ContentEditor({ table, title, sub, fields, newLabel, makeId, toast }) {
+export function ContentEditor({ table, title, sub, fields, newLabel, makeId, toast, mediaPrefix, mediaLabel, mediaAccept }) {
   const [rows, setRows] = useState(null)
   const [dirty, setDirty] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [media, setMedia] = useState({})
 
   const load = async () => {
     setRows(await adminFetch(table))
     setDirty(false)
   }
   useEffect(() => { load() }, [])
+  useEffect(() => { if (mediaPrefix) fetchMedia().then(setMedia) }, [mediaPrefix])
+
+  const onMedia = (slotId, m) => setMedia((prev) => {
+    const next = { ...prev }
+    if (m) next[slotId] = m
+    else delete next[slotId]
+    return next
+  })
 
   const edit = (id, field, value) => {
     setRows((prev) => prev.map((r) => (r.id === id ? { ...r, [field]: value } : r)))
@@ -83,20 +94,38 @@ export function ContentEditor({ table, title, sub, fields, newLabel, makeId, toa
             <button className="adm-danger" onClick={() => remove(r.id)}>Remover</button>
           </div>
 
-          {fields.map((f) => (
-            <label key={f.key}>
-              <span>{f.label}{f.hint ? ` · ${f.hint}` : ''}</span>
-              {f.type === 'textarea' ? (
-                <textarea rows={f.rows || 3} value={r[f.key] || ''} onChange={(e) => edit(r.id, f.key, e.target.value)} placeholder={f.placeholder || ''} />
-              ) : f.type === 'select' ? (
-                <select className="adm-select" value={r[f.key] || ''} onChange={(e) => edit(r.id, f.key, e.target.value || null)}>
-                  {f.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </select>
-              ) : (
-                <input value={r[f.key] || ''} onChange={(e) => edit(r.id, f.key, e.target.value)} placeholder={f.placeholder || ''} />
-              )}
-            </label>
-          ))}
+          <div className="adm-q-grid">
+            <div className="adm-q-fields">
+              {fields.map((f) => (
+                <label key={f.key}>
+                  <span>{f.label}{f.hint ? ` · ${f.hint}` : ''}</span>
+                  {f.type === 'textarea' ? (
+                    <textarea rows={f.rows || 3} value={r[f.key] || ''} onChange={(e) => edit(r.id, f.key, e.target.value)} placeholder={f.placeholder || ''} />
+                  ) : f.type === 'select' ? (
+                    <select className="adm-select" value={r[f.key] || ''} onChange={(e) => edit(r.id, f.key, e.target.value || null)}>
+                      {f.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                    </select>
+                  ) : (
+                    <input value={r[f.key] || ''} onChange={(e) => edit(r.id, f.key, e.target.value)} placeholder={f.placeholder || ''} />
+                  )}
+                </label>
+              ))}
+            </div>
+
+            {mediaPrefix && (
+              <div className="adm-q-media">
+                <span className="adm-q-media-lbl">{mediaLabel || 'Mídia'}</span>
+                <MediaControl
+                  slotId={`${mediaPrefix}${r.id}`}
+                  accept={mediaAccept || 'image/*,video/*'}
+                  current={media[`${mediaPrefix}${r.id}`]}
+                  onChange={onMedia}
+                  toast={toast}
+                  compact
+                />
+              </div>
+            )}
+          </div>
 
           <div className="adm-q-actions">
             <label className="adm-toggle">
@@ -134,10 +163,13 @@ export function CasesEditor({ toast }) {
     <ContentEditor
       table="cases"
       title="Casos"
-      sub="edições aparecem no site imediatamente"
+      sub="texto e mídia de cada caso, num lugar só"
       newLabel="Adicionar caso"
       makeId={() => slug('novo caso') || 'caso'}
       toast={toast}
+      mediaPrefix="case_"
+      mediaLabel="Foto ou vídeo do caso"
+      mediaAccept="image/*,video/*"
       fields={[
         { key: 'kicker', label: 'Categoria', hint: 'ex: Perda total', placeholder: 'Categoria curta' },
         { key: 'title', label: 'Título', required: true, placeholder: 'Ex: Porsche 911 Turbo' },
@@ -162,6 +194,9 @@ export function BackstageEditor({ toast }) {
       newLabel="Adicionar item"
       makeId={() => slug('novo item') || 'item'}
       toast={toast}
+      mediaPrefix="bt_"
+      mediaLabel="Foto ou vídeo"
+      mediaAccept="image/*,video/*"
       fields={[
         { key: 'kicker', label: 'Categoria', placeholder: 'ex: Risco invisível' },
         { key: 'title', label: 'Título', required: true, type: 'textarea', rows: 2 },
