@@ -42,6 +42,9 @@ export function Footer() {
         <div className="f-bot">
           <span>© {new Date().getFullYear()} Referency Corretora de Seguros</span>
           <span>{brand.susep}</span>
+          <a className="f-powered" href="https://www.drivedata.com.br/" target="_blank" rel="noopener">
+            Powered by DriveData <span aria-hidden="true">💙</span>
+          </a>
         </div>
       </div>
     </footer>
