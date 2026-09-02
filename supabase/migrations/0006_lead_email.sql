@@ -61,16 +61,22 @@ begin
     || '<p style="margin:26px 0 0;font-size:12px;color:#9DB0AD">Veja no painel: referency-corretora-website.vercel.app/admin</p>'
     || '</div></div>';
 
-  perform net.http_post(
-    url     := 'https://api.resend.com/emails',
-    headers := jsonb_build_object('Authorization', 'Bearer ' || api_key, 'Content-Type', 'application/json'),
-    body    := jsonb_build_object(
-      'from',    from_addr,
-      'to',      recips,
-      'subject', 'Novo diagnóstico — ' || coalesce(new.name, 'sem nome'),
-      'html',    html
-    )
-  );
+  -- O envio é embrulhado: qualquer erro aqui é engolido e o lead entra do mesmo
+  -- jeito. Perder a notificação nunca pode impedir a captura do lead.
+  begin
+    perform net.http_post(
+      url     := 'https://api.resend.com/emails',
+      headers := jsonb_build_object('Authorization', 'Bearer ' || api_key, 'Content-Type', 'application/json'),
+      body    := jsonb_build_object(
+        'from',    from_addr,
+        'to',      recips,
+        'subject', 'Novo diagnóstico — ' || coalesce(new.name, 'sem nome'),
+        'html',    html
+      )
+    );
+  exception when others then
+    null;  -- não propaga: o insert do lead segue normalmente
+  end;
 
   return new;
 end;
