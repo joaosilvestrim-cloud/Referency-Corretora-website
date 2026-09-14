@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import { cases, brand } from '../data/content'
 import { Plate } from './Plate'
+import { useMedia } from './MediaProvider'
 
 const EASE = [0.76, 0, 0.24, 1]
 const SOFT = [0.22, 0.61, 0.36, 1]
@@ -15,6 +16,13 @@ const stagger = (i) => ({
 export function CaseOverlay({ items = cases.items, index, onClose, onNavigate }) {
   const c = items[index]
   const next = (index + 1) % items.length
+
+  /* No card, o vídeo do caso roda mudo em loop, como prévia. Ao abrir o caso,
+     a pessoa quer ouvir a história narrada: aqui vira um player de verdade, com
+     som e controles. Só quando a mídia enviada é vídeo; foto continua na Plate. */
+  const media = useMedia()
+  const uploaded = media[`case_${c.id}`]
+  const hasVideo = uploaded?.kind === 'video'
 
   useEffect(() => {
     const onKey = (e) => {
@@ -49,12 +57,24 @@ export function CaseOverlay({ items = cases.items, index, onClose, onNavigate })
 
       <div className="ov-body">
         <div className="ov-in">
-          <motion.div className="ov-media" {...stagger(0)}>
-            <Plate kind={c.plate} slot={`case_${c.id}`} caption={c.photo} parallax={false} />
-            {c.video && (
-              <span className="case-play">
-                <span className="tri" /> {String(c.video).includes(':') ? `Vídeo · ${c.video}` : 'Vídeo'}
-              </span>
+          <motion.div className={`ov-media${hasVideo ? ' is-video' : ''}`} {...stagger(0)}>
+            {hasVideo ? (
+              <video
+                className="ov-video"
+                src={uploaded.url}
+                controls
+                playsInline
+                preload="metadata"
+              />
+            ) : (
+              <>
+                <Plate kind={c.plate} slot={`case_${c.id}`} caption={c.photo} parallax={false} />
+                {c.video && (
+                  <span className="case-play">
+                    <span className="tri" /> {String(c.video).includes(':') ? `Vídeo · ${c.video}` : 'Vídeo'}
+                  </span>
+                )}
+              </>
             )}
           </motion.div>
 

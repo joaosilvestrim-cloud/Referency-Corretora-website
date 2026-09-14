@@ -700,3 +700,10 @@ body.briefing .brief-toggle{background:var(--ink);color:var(--paper);border-colo
 @media (max-width:560px){
   .atelie-stats{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ---------- player de vídeo do caso (com som) ---------- */
+.ov-media.is-video{aspect-ratio:3/4;background:#0B1211}
+.ov-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;background:#0B1211;display:block;
+}
