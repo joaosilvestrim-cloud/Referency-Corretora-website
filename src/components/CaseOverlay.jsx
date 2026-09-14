@@ -62,8 +62,21 @@ export function CaseOverlay({ items = cases.items, index, onClose, onNavigate })
             <motion.h2 className="ov-title" {...stagger(1)}>{c.title}</motion.h2>
             <motion.p className="ov-sub" {...stagger(2)}>{c.subtitle}</motion.p>
             <motion.div className="ov-text" {...stagger(3)}>
-              <p>{c.teaser}</p>
-              <p>{c.body}</p>
+              {c.teaser && <p>{c.teaser}</p>}
+              {/* o corpo pode ter vários parágrafos: cada linha em branco vira
+                  um parágrafo, e quebra simples vira uma quebra de linha. Assim
+                  o que a corretora digita no painel aparece igual no site. */}
+              {String(c.body || '')
+                .split(/\n\s*\n/)
+                .map((para) => para.trim())
+                .filter(Boolean)
+                .map((para, i) => (
+                  <p key={i}>
+                    {para.split('\n').map((line, j, arr) => (
+                      <span key={j}>{line}{j < arr.length - 1 && <br />}</span>
+                    ))}
+                  </p>
+                ))}
             </motion.div>
 
             <motion.div className="ov-verdict" {...stagger(4)}>
